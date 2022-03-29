@@ -45,7 +45,7 @@
 
 
     <?php
-    if(isset($_SESSION["idUtente"])){
+    if(isset($_SESSION["idCarrello"])){
         
     }
     ?>
