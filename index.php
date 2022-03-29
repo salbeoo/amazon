@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" type="text/css" href="html/css/util.css">
     <link rel="stylesheet" type="text/css" href="html/css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -18,7 +19,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Amazon</a>
+        <a class="navbar-brand" href="index.php">Amazon</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,6 +42,25 @@
             </li>
         </ul>
     </nav>
+
+
+    <?php
+    if(isset($_SESSION["idUtente"])){
+        
+    }
+    ?>
+    <div class="container-box">
+        <div class="container-immagine">
+            <img class="img-prodotto" src="cavalloRuotato.png">
+        </div>
+        <div class="container-title">
+            Bello mio
+        </div>
+        <div class="container-prezzo">
+            6,99€
+        </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

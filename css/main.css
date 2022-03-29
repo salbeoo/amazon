@@ -1,0 +1,9 @@
+.container-box{
+    background-color: aqua;
+    width: 350px;
+    height: 400px;
+    display: inline-block;
+}
+.img-prodotto{
+    width: 280px;
+}
