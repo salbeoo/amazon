@@ -68,7 +68,7 @@ include("php/connection.php");
             </div>
         </div>
         <div class='container-prezzo'>
-            $row[prezzo]
+            $row[prezzo]€
         </div>
         <div class='container-button'>
         <button class='button-style' type='button'>Aggiungi al carrello</button>
