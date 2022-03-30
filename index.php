@@ -1,3 +1,7 @@
+<?php
+include("php/sessioni.php");
+include("php/connection.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,11 +49,35 @@
 
 
     <?php
-    if(isset($_SESSION["idCarrello"])){
-        
+    // if(isset($_SESSION["idCarrello"])){
+
+    // }
+    $stringa = "";
+    $sql = "SELECT * FROM articolo";
+    $result = $conn->query($sql);
+    while ($row = $result->fetch_assoc()) {
+        $stringa .= "
+        <div class='container-box'>
+        <div class='container-immagine'>
+            <img class='img-prodotto' src='$row[immagine]' alt='ciai'>
+        </div>
+        <div class='container-title'>
+            $row[nome]
+            <div class='container-descrizione'>
+                $row[descrizione]
+            </div>
+        </div>
+        <div class='container-prezzo'>
+            $row[prezzo]
+        </div>
+        <div class='container-button'>
+        <button class='button-style' type='button'>Aggiungi al carrello</button>
+        </div>
+    </div>";
     }
+    echo $stringa;
     ?>
-    <div class="container-box">
+    <!-- <div class="container-box">
         <div class="container-immagine">
             <img class="img-prodotto" src="cavalloRuotato.png">
         </div>
@@ -59,7 +87,7 @@
         <div class="container-prezzo">
             6,99€
         </div>
-    </div>
+    </div> -->
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

@@ -1,9 +1,38 @@
 .container-box{
-    background-color: aqua;
     width: 350px;
     height: 400px;
     display: inline-block;
+    border: 1px solid black;
+    position: relative;
+}
+.container-immagine{
+    top: 0;
+    position: relative;
 }
 .img-prodotto{
-    width: 280px;
+    width: 348px;
+}
+.container-title{
+    
+}
+.container-prezzo{
+
+}
+.container-button{
+    bottom: 0;
+    position: absolute;
+}
+.button-style{
+    border-radius: 4px;
+    border: 1px solid black;
+    width: 350;
+    height: 50px;
+    position: relative;
+    bottom: 0;
+    font-weight: bold;
+}
+
+/* hover */
+.container-box:hover{
+    background-color: rgb(71, 75, 75);
 }
