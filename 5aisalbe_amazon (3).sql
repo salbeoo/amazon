@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 29, 2022 alle 09:56
+-- Creato il: Mar 30, 2022 alle 12:50
 -- Versione del server: 10.4.6-MariaDB
 -- Versione PHP: 7.3.8
 
@@ -40,6 +40,13 @@ CREATE TABLE `articolo` (
   `peso` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `articolo`
+--
+
+INSERT INTO `articolo` (`id`, `codice`, `nome`, `descrizione`, `quantita`, `prezzo`, `idCategoria`, `immagine`, `peso`) VALUES
+(1, 1, 'ps5', 'CPU: 8x Zen 2 Cores at 3.5GHz. GPU: 10.28 TFLOPs, 36 CUs at 2.23GHz (frequenza variabile) Architettura GPU: RDNA 2 personalizzata. Memoria: 16GB GDDR6/256-bit.', 10, 451, 1, 'php/uploads/ps5.png', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -64,6 +71,13 @@ CREATE TABLE `categoria` (
   `tipo` varchar(100) NOT NULL,
   `descrizione` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `categoria`
+--
+
+INSERT INTO `categoria` (`codice`, `tipo`, `descrizione`) VALUES
+(1, 'Elettronica - Informatica', 'cose elettroniche');
 
 -- --------------------------------------------------------
 
@@ -145,7 +159,8 @@ CREATE TABLE `utente` (
 --
 
 INSERT INTO `utente` (`id`, `nome`, `cognome`, `dataNascita`, `sesso`, `username`, `password`, `telefono`, `email`, `fotoProfilo`, `ruolo`, `idIndirizzo`) VALUES
-(1, 'Alberto', 'Stagno', '2003-01-01', 'Uomo', NULL, 'ciao', NULL, 'abc@aaa.it', NULL, 0, NULL);
+(1, 'Alberto', 'Stagno', '2003-01-01', 'Uomo', NULL, 'ciao', NULL, 'abc@aaa.it', NULL, 0, NULL),
+(2, 'Simo', 'Sessa', '2003-01-01', 'Uomo', NULL, '6e6bc4e49dd477ebc98ef4046c067b5f', NULL, 'simo@gmail.com', NULL, 0, NULL);
 
 --
 -- Indici per le tabelle scaricate
@@ -205,6 +220,7 @@ ALTER TABLE `ordine`
 --
 ALTER TABLE `utente`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
   ADD KEY `FK1` (`idIndirizzo`);
 
 --
@@ -215,7 +231,7 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `articolo`
 --
 ALTER TABLE `articolo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `carrello`
@@ -227,7 +243,7 @@ ALTER TABLE `carrello`
 -- AUTO_INCREMENT per la tabella `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `codice` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codice` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `contiene_acquisto`
@@ -251,7 +267,7 @@ ALTER TABLE `ordine`
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Limiti per le tabelle scaricate
