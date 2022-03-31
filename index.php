@@ -1,6 +1,24 @@
 <?php
 include("php/sessioni.php");
 include("php/connection.php");
+
+echo json_encode($_COOKIE);
+if (!isset($_COOKIE["user_name"])) {
+    setcookie("user_name", "guest", time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie("utente_id", "-1", time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie("utente_email", "prova@gmail.com", time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie("carrello_id", "1000", time() + (86400 * 30), "/"); // 86400 = 1 day
+} else {
+    $_SESSION["idUtente"] = $_COOKIE["utente_id"];
+    $_SESSION["email"] = $_COOKIE["utente_email"];
+    $_SESSION["idCarrello"] = $_COOKIE["carrello_id"];
+}
+
+if (isset($_GET["idProdottoAcquisto"])) {
+    setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,32 +67,33 @@ include("php/connection.php");
 
 
     <?php
-    // if(isset($_SESSION["idCarrello"])){
-
-    // }
-    $stringa = "";
+    if (!isset($_SESSION["idCarrello"])) {
+        $_SESSION["idCarrello"] = 10;
+    }
+    $stringa = ""/* "<div class='container>" */;
     $sql = "SELECT * FROM articolo";
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
         $stringa .= "
-        <div class='container-box'>
+        <div class='container-box col-lg-2 col-md-5 col-sm-4'>
         <div class='container-immagine'>
-            <img class='img-prodotto' src='$row[immagine]' alt='ciai'>
+            <img class='img-prodotto col' src='$row[immagine]' alt='ciai'>
         </div>
-        <div class='container-title'>
+        <div class='container-title col'>
             $row[nome]
-            <div class='container-descrizione'>
+            <div class='container-descrizione col'>
                 $row[descrizione]
             </div>
         </div>
-        <div class='container-prezzo'>
+        <div class='container-prezzo col'>
             $row[prezzo]€
         </div>
         <div class='container-button'>
-        <button class='button-style' type='button'>Aggiungi al carrello</button>
+        <button class='button-style' type='button' onclick='aggiungiProdotto(" . "$row[id]" . ")'>Aggiungi al carrello</button>
         </div>
     </div>";
     }
+    // $stringa="</div>";
     echo $stringa;
     ?>
     <!-- <div class="container-box">
@@ -94,3 +113,10 @@ include("php/connection.php");
 </body>
 
 </html>
+
+<script>
+    function aggiungiProdotto(i) {
+        window.location.replace('index.php?idProdottoAcquisto=' + i);
+        // setcookie("carrello_prodotti", i, time() + (86400 * 30), "/"); // 86400 = 1 day
+    }
+</script>

@@ -15,6 +15,12 @@ if ($result->num_rows>0) {
     $_SESSION["idUtente"]=$row["utente.id"];
     $_SESSION["email"]=$row["email"];
     $_SESSION["idCarrello"]=$row["carrello.id"];
+    
+    setcookie("user_name", "guest", time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie("utente_id", "-1", time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie("utente_email", "prova@gmail.com", time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie("carrello_id", "1000", time() + (86400 * 30), "/"); // 86400 = 1 day
+    
     header("location:../index.php");
   } else {
     header("location:../html/login.html?ErroreLogin");

@@ -4,6 +4,9 @@
     display: inline-block;
     /* border: 1px solid black; */
     position: relative;
+    overflow: hidden;
+    margin-left: 40px;
+    margin-top: 40px;
 }
 .container-immagine{
     top: 20px;
@@ -16,10 +19,13 @@
     transform: scale(1.05);
 }
 .img-prodotto{
-    width: 348px;
+    /* max-width: 300px; */
 }
 .container-title{
-    
+    overflow: hidden;
+}
+.container-descrizione{
+    overflow: hidden;
 }
 .container-prezzo{
     font-size: 30px;
