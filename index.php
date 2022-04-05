@@ -13,13 +13,25 @@ if (!isset($_COOKIE["user_name"])) {
     $_SESSION["email"] = $_COOKIE["utente_email"];
     $_SESSION["idCarrello"] = $_COOKIE["carrello_id"];
 }
+if(isset($_COOKIE["utente_id"])){
+    $idCarrello=$_COOKIE["carrello_id"];
+    $sql = $conn->prepare("INSERT INTO carrello (idUtente) VALUES (?)");
+    $sql->bind_param("i", $idUtente);
+}
+
+if(isset($_COOKIE["carrello_id"])){
+    $idUtente=$_COOKIE["utente_id"];
+    $sql = $conn->prepare("INSERT INTO carrello (idUtente) VALUES (?)");
+    $sql->bind_param("i", $idUtente);
+}
 
 if (isset($_GET["idProdottoAcquisto"])) {
 
     $idArticolo=(int)$_GET["idProdottoAcquisto"];
     $idCarrello=(int)$_SESSION["idCarrello"];
+    // $quantita=1;
     // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
-    $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello) VALUES (?, ?)");
+    $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello,quantita) VALUES (?, ?)");
     $sql->bind_param("ii", $idArticolo, $idCarrello);
 
     // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
