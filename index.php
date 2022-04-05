@@ -2,7 +2,7 @@
 include("php/sessioni.php");
 include("php/connection.php");
 
-echo json_encode($_COOKIE);
+// echo json_encode($_COOKIE);
 if (!isset($_COOKIE["user_name"])) {
     setcookie("user_name", "guest", time() + (86400 * 30), "/"); // 86400 = 1 day
     setcookie("utente_id", "-1", time() + (86400 * 30), "/"); // 86400 = 1 day
@@ -15,8 +15,19 @@ if (!isset($_COOKIE["user_name"])) {
 }
 
 if (isset($_GET["idProdottoAcquisto"])) {
-    setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
 
+    $idArticolo=(int)$_GET["idProdottoAcquisto"];
+    $idCarrello=(int)$_SESSION["idCarrello"];
+    // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
+    $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello) VALUES (?, ?)");
+    $sql->bind_param("ii", $idArticolo, $idCarrello);
+
+    // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
+    // $conn->query($sql)
+    if ( $sql->execute() === TRUE) {
+        echo "stronzo";
+        header("location:php/carrello.php");
+      } 
 }
 
 ?>
@@ -60,7 +71,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
         </div>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Carrello</a>
+                <a class="nav-link" href="php/carrello.php">Carrello</a>
             </li>
         </ul>
     </nav>
@@ -76,7 +87,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
     while ($row = $result->fetch_assoc()) {
         $stringa .= "
         <div class='container-box col-lg-2 col-md-5 col-sm-4'>
+        <a href='php/schedaProdotto.php?idProdottoCliccato=" . "$row[id]" . "'>
         <div class='container-immagine'>
+
             <img class='img-prodotto col' src='$row[immagine]' alt='ciai'>
         </div>
         <div class='container-title col'>
@@ -88,6 +101,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
         <div class='container-prezzo col'>
             $row[prezzo]€
         </div>
+        </a>
         <div class='container-button'>
         <button class='button-style' type='button' onclick='aggiungiProdotto(" . "$row[id]" . ")'>Aggiungi al carrello</button>
         </div>
