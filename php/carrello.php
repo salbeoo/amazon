@@ -13,9 +13,9 @@ include("connection.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amazon</title>
 
-    <link rel="stylesheet" type="text/css" href="html/css/util.css">
-    <link rel="stylesheet" type="text/css" href="html/css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="../html/css/util.css">
+    <link rel="stylesheet" type="text/css" href="../html/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -49,9 +49,50 @@ include("connection.php");
         </ul>
     </nav>
 
+    <?php
+
+    $stringa = ""/* "<div class='container>" */;
+    $sql = "SELECT * FROM articolo join contiene_acquisto on articolo.id=contiene_acquisto.idArticolo";
+    $result = $conn->query($sql);
+    // <a href='php/schedaProdotto.php?idProdottoCliccato=" . "$row[id]" . "'>                </a>
+    while ($row = $result->fetch_assoc()) {
+        $stringa .= "
+        <div class='container'>
+            <div class='row'>
+
+                    <div class='col'>
+                        <div class='container-immagine'>
+
+                            <img class='img-prodotto col' src='../$row[immagine]' alt='ciai'>
+                        </div>
+                    </div>
+                <div class='col'>
+                    <div class='container-title col'>
+                        $row[nome]
+                        <div class='container-descrizione col'>
+                            $row[descrizione]
+                        </div>
+                    </div>
+                </div>
+                <div class='col'>
+                    <div class='container-prezzo col'>
+                        $row[prezzo]€
+                    </div>
+                </div>
+                <div class='col ' >
+                    <div class='container-button'>
+                    <button class='button-style' type='button' onclick='cancellaProdotto(" . "$row[id]" . ")'>X</button>
+                    </div>
+                </div>
+            </div>
+        </div>";
+    }
+    // $stringa="</div>";
+    echo $stringa;
+    ?>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 
 </html>
-
