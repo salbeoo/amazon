@@ -6,12 +6,36 @@ include("php/connection.php");
 if (!isset($_COOKIE["user_name"])) {
     setcookie("user_name", "guest", time() + (86400 * 30), "/"); // 86400 = 1 day
     setcookie("utente_id", "-1", time() + (86400 * 30), "/"); // 86400 = 1 day
-    setcookie("utente_email", "prova@gmail.com", time() + (86400 * 30), "/"); // 86400 = 1 day
+    setcookie("utente_email", "guest@gmail.com", time() + (86400 * 30), "/"); // 86400 = 1 day
     setcookie("carrello_id", "1000", time() + (86400 * 30), "/"); // 86400 = 1 day
+    $utente="guest";
+    $cognome="guest";
+    $dataNascita="2003-01-01";
+    $sesso="Uomo";
+    $password=md5("ciao");
+    $email="guest@gmail.com";
+
+    //sistema qua
+    $sql = $conn->prepare("INSERT INTO utente (nome,cognome,dataNascita,sesso,password,email) VALUES (?,?,?,?,?,?)");
+    $sql->bind_param("sssss", $utente,$cognome,$dataNascita,$sesso,$password,$email);
+
+    if ( $sql->execute() === TRUE) {
+        echo "bra";
+      } 
+    // $sql="INSERT INTO utente (nome,cognome,dataNascita,sesso,password,email) VALUES ($utente,$cognome,$dataNascita,$sesso,$password,$email)";
+    // $conn->query($sql);
+    // echo $conn->error;
 } else {
+    $sql="select Last(id) from utente";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            setcookie("utente_id", $row["id"], time() + (86400 * 30), "/"); // 86400 = 1 day
+        }
     $_SESSION["idUtente"] = $_COOKIE["utente_id"];
     $_SESSION["email"] = $_COOKIE["utente_email"];
     $_SESSION["idCarrello"] = $_COOKIE["carrello_id"];
+    }
 }
 if(isset($_COOKIE["utente_id"])){
     $idCarrello=$_COOKIE["carrello_id"];
@@ -37,7 +61,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
     // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
     // $conn->query($sql)
     if ( $sql->execute() === TRUE) {
-        echo "stronzo";
+        echo "f";
         header("location:php/carrello.php");
       } 
 }
