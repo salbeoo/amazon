@@ -51,19 +51,18 @@ include("connection.php");
 
     <?php
 
-    $stringa = ""/* "<div class='container>" */;
+    $stringa = "<div class='container'>"/* "<div class='container>" */;
     $sql = "SELECT * FROM articolo join contiene_acquisto on articolo.id=contiene_acquisto.idArticolo";
     $result = $conn->query($sql);
     // <a href='php/schedaProdotto.php?idProdottoCliccato=" . "$row[id]" . "'>                </a>
     while ($row = $result->fetch_assoc()) {
         $stringa .= "
-        <div class='container'>
-            <div class='row'>
+            <div class='row align-items-center'>
 
                     <div class='col'>
-                        <div class='container-immagine'>
+                        <div class='container-immagine col'>
 
-                            <img class='img-prodotto col' src='../$row[immagine]' alt='ciai'>
+                            <img class='img-prodotto col img-fluid' src='../$row[immagine]' alt='ciai'>
                         </div>
                     </div>
                 <div class='col'>
@@ -80,14 +79,13 @@ include("connection.php");
                     </div>
                 </div>
                 <div class='col ' >
-                    <div class='container-button'>
+                    <div class='container-button col'>
                     <button class='button-style' type='button' onclick='cancellaProdotto(" . "$row[id]" . ")'>X</button>
                     </div>
                 </div>
-            </div>
-        </div>";
+            </div>";
     }
-    // $stringa="</div>";
+    $stringa.="</div>";
     echo $stringa;
     ?>
 

@@ -19,7 +19,7 @@
     transform: scale(1.05);
 }
 .img-prodotto{
-    /* max-width: 300px; */
+    max-width: 300px;
 }
 .container-title{
     overflow: hidden;
@@ -55,3 +55,5 @@
     background-color: rgb(235, 235, 235);
     /* transform: scale(1.05); */
 }
+
+/* carrellooo css */

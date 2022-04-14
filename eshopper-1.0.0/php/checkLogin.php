@@ -6,7 +6,7 @@ include("connection.php");
 $email=$_POST["email"];
 $password=$_POST["password"];
 
-$sql = "SELECT  last(utente.id),email,carrello.id FROM utente join carrello on utente.id = carrello.idUtente where password = '".md5($password)."' and email = '$email' and pagato=null";
+$sql = "SELECT  utente.id,email,carrello.id FROM utente join carrello on utente.id = carrello.idUtente where password = '".md5($password)."' and email = '$email' and pagato=0";
 $result = $conn->query($sql);
 
 if ($result->num_rows>0) {

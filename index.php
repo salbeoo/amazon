@@ -3,7 +3,7 @@ include("php/sessioni.php");
 include("php/connection.php");
 
 // echo json_encode($_COOKIE);
-if (!isset($_COOKIE["user_name"])) {
+if (!isset($_SESSION["utente_id"])) {
     $sql = "select * from utente where email='guest@gmail.com'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
@@ -30,37 +30,18 @@ if (!isset($_COOKIE["user_name"])) {
             }
         }
     }
-
     $_SESSION["utente_id"] = $_COOKIE["utente_id"];
     $_SESSION["user_name"] = $_COOKIE["user_name"];
     $_SESSION["user_surname"] =  $_COOKIE["user_surname"];
     $_SESSION["utente_email"] =  $_COOKIE["utente_email"];
     $_SESSION["carrello_id"] =  $_COOKIE["carrello_id"];
-    {
-        // $utente="guest";
-        // $cognome="guest";
-        // $dataNascita="2003-01-01";
-        // $sesso="Uomo";
-        // $password=md5("ciao");
-        // $email="guest@gmail.com";
-
-        // //sistema qua
-        // $sql = $conn->prepare("INSERT INTO utente (nome,cognome,dataNascita,sesso,password,email) VALUES (?,?,?,?,?,?)");
-        // $sql->bind_param("ssssss", $utente,$cognome,$dataNascita,$sesso,$password,$email);
-
-        // if ( $sql->execute() === TRUE) {
-        //     echo "bra";
-        //   }
-        // $sql="INSERT INTO utente (nome,cognome,dataNascita,sesso,password,email) VALUES ($utente,$cognome,$dataNascita,$sesso,$password,$email)";
-        // $conn->query($sql);
-        // echo $conn->error;
-    }
+    
 } else {
-    $utente_id = $_COOKIE["utente_id"];
-    $user_name = $_COOKIE["user_name"];
-    $user_surname = $_COOKIE["user_surname"];
-    $utente_email = $_COOKIE["utente_email"];
-    $carrello_id = $_COOKIE["carrello_id"];
+    $utente_id = $_SESSION["utente_id"];
+    $user_name = $_SESSION["user_name"];
+    $user_surname = $_SESSION["user_surname"];
+    $utente_email = $_SESSION["utente_email"];
+    $carrello_id = $_SESSION["carrello_id"] ;
 
     $_SESSION["utente_id"] = $utente_id;
     $_SESSION["user_name"] = $user_name;
@@ -76,7 +57,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
     $quantita=1;
     // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
     $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello,quantita) VALUES (?, ?,?)");
-    $sql->bind_param("ii", $idArticolo, $idCarrello,$quantita);
+    $sql->bind_param("iii", $idArticolo, $idCarrello,$quantita);
 
     // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
     // $conn->query($sql)
@@ -124,6 +105,12 @@ if (isset($_GET["idProdottoAcquisto"])) {
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
+
+        <?php
+        if(isset($_SESSION["user_name"])){
+            echo '<a class="navbar-brand" href="index.php">'.$_SESSION["user_name"].'</a>';
+        }
+        ?>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="php/carrello.php">Carrello</a>
