@@ -6,12 +6,12 @@ $idArticolo = $_GET["idArticolo"];
 $sql = "SELECT * FROM articolo where $idArticolo= id";
 $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
-    $_SESSION["nomeArticolo"]=$row["nome"];
-    $_SESSION["descrizioneArticolo"]=$row["descrizione"];
-    $_SESSION["prezzoArticolo"]=$row["prezzo"];
-    $_SESSION["immagineArticolo"]=$row["immagine"];
-    $_SESSION["pesoArticolo"]=$row["peso"];
-}   
+    $_SESSION["nomeArticolo"] = $row["nome"];
+    $_SESSION["descrizioneArticolo"] = $row["descrizione"];
+    $_SESSION["prezzoArticolo"] = $row["prezzo"];
+    $_SESSION["immagineArticolo"] = $row["immagine"];
+    $_SESSION["pesoArticolo"] = $row["peso"];
+}
 
 ?>
 
@@ -47,7 +47,7 @@ while ($row = $result->fetch_assoc()) {
     <div class="container-fluid">
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
+                <a href="../index.php" class="text-decoration-none">
                     <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">S</span>HOPBEO</h1>
                 </a>
             </div>
@@ -112,6 +112,10 @@ while ($row = $result->fetch_assoc()) {
                             <a href="shop.php" class="nav-item nav-link">Shop</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
+                        <?php
+                                if(isset($_SESSION["email"]))
+                                echo '<a href="utente.php" class="nav-item nav-link">'.$_SESSION["nome"].'</a>'
+                            ?>
                             <a href="" class="nav-item nav-link">Login</a>
                             <a href="" class="nav-item nav-link">Register</a>
                         </div>
@@ -130,10 +134,10 @@ while ($row = $result->fetch_assoc()) {
                     <div class="carousel-inner border">
                         <div class="carousel-item active">
                             <?php
-                                $img='<img class="w-100 h-100" src="../'.$_SESSION["immagineArticolo"].'" alt="Image">';
-                                echo $img;
+                            $img = '<img class="w-100 h-100" src="../' . $_SESSION["immagineArticolo"] . '" alt="Image">';
+                            echo $img;
                             ?>
-                            
+
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
@@ -147,7 +151,7 @@ while ($row = $result->fetch_assoc()) {
 
             <div class="col-lg-7 pb-5">
                 <?php
-                $titolo='<h3 class="font-weight-semi-bold">'.$_SESSION["nomeArticolo"].'</h3>';
+                $titolo = '<h3 class="font-weight-semi-bold">' . $_SESSION["nomeArticolo"] . '</h3>';
                 echo $titolo;
 
                 ?>
@@ -163,11 +167,11 @@ while ($row = $result->fetch_assoc()) {
                     <small class="pt-1">(50 Reviews)</small>
                 </div> -->
                 <?php
-                    $riga='<h3 class="font-weight-semi-bold mb-4">€'.$_SESSION["prezzoArticolo"].'</h3>
-                    <p class="mb-4">'.$_SESSION["descrizioneArticolo"].'</p>';
-                    echo $riga;
+                $riga = '<h3 class="font-weight-semi-bold mb-4">€' . $_SESSION["prezzoArticolo"] . '</h3>
+                    <p class="mb-4">' . $_SESSION["descrizioneArticolo"] . '</p>';
+                echo $riga;
                 ?>
-                
+
                 <!-- SIZE PER VESTITI O ALTRO  -->
                 <!-- <div class="d-flex mb-3">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
@@ -250,19 +254,27 @@ while ($row = $result->fetch_assoc()) {
                     <div class="tab-pane fade show active" id="tab-pane-1">
                         <h4 class="mb-3">Product Description</h4>
                         <?php
-                        $desciption='<p>'.$_SESSION["descrizioneArticolo"].'</p>';
+                        $desciption = '<p>' . $_SESSION["descrizioneArticolo"] . '</p>';
                         echo $desciption;
                         ?>
 
                     </div>
                     <div class="tab-pane fade" id="tab-pane-2">
                         <h4 class="mb-3">Additional Information</h4>
-                        <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
+                        <?php
+                        $desciption = '<p>' . $_SESSION["descrizioneArticolo"] . '</p>';
+                        echo $desciption;
+                        ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item px-0">
-                                        Sit erat duo lorem duo ea consetetur, et eirmod takimata.
+                                        Peso:
+                                        <?php
+                                        $desciption =$_SESSION["pesoArticolo"];
+                                        echo $desciption;
+                                        ?>
+                                        kg
                                     </li>
                                     <li class="list-group-item px-0">
                                         Amet kasd gubergren sit sanctus et lorem eos sadipscing at.
@@ -275,22 +287,7 @@ while ($row = $result->fetch_assoc()) {
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-md-6">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item px-0">
-                                        Sit erat duo lorem duo ea consetetur, et eirmod takimata.
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Amet kasd gubergren sit sanctus et lorem eos sadipscing at.
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Duo amet accusam eirmod nonumy stet et et stet eirmod.
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Takimata ea clita labore amet ipsum erat justo voluptua. Nonumy.
-                                    </li>
-                                </ul>
-                            </div>
+
                         </div>
                     </div>
                     <div class="tab-pane fade" id="tab-pane-3">
@@ -298,7 +295,7 @@ while ($row = $result->fetch_assoc()) {
                             <div class="col-md-6">
                                 <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
                                 <div class="media mb-4">
-                                    <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                    <img src="../img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                     <div class="media-body">
                                         <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
                                         <div class="text-primary mb-2">
@@ -314,7 +311,6 @@ while ($row = $result->fetch_assoc()) {
                             </div>
                             <div class="col-md-6">
                                 <h4 class="mb-4">Leave a review</h4>
-                                <small>Your email address will not be published. Required fields are marked *</small>
                                 <div class="d-flex my-3">
                                     <p class="mb-0 mr-2">Your Rating * :</p>
                                     <div class="text-primary">
@@ -329,14 +325,6 @@ while ($row = $result->fetch_assoc()) {
                                     <div class="form-group">
                                         <label for="message">Your Review *</label>
                                         <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name">Your Name *</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Your Email *</label>
-                                        <input type="email" class="form-control" id="email">
                                     </div>
                                     <div class="form-group mb-0">
                                         <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
@@ -464,23 +452,8 @@ while ($row = $result->fetch_assoc()) {
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                            <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                            <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
-                        <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                            <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                            <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-dark mb-2" href="../index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
                         </div>
                     </div>
                 </div>
