@@ -2,7 +2,26 @@
 include("sessioni.php");
 include("connection.php");
 
+if (isset($_GET["idArticoloEliminare"])) {
+    $sql = "DELETE FROM articolo WHERE id=$_GET[idArticoloEliminare]";
+    $conn->query($sql);
+}
 
+if (isset($_GET["idProdottoAcquisto"])) {
+
+    $idArticolo = $_GET["idProdottoAcquisto"];
+    $idCarrello = $_SESSION["idCarrello"];
+    $quantita = 1;
+    // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
+    $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello,quantita) VALUES (?, ?,?)");
+    $sql->bind_param("iii", $idArticolo, $idCarrello, $quantita);
+
+    // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
+    // $conn->query($sql)
+    if ($sql->execute() === TRUE) {
+        header("location:shop.php");
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +48,20 @@ include("connection.php");
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
+
+    <script>
+        function change(id) {
+            var richiesta = window.confirm("Vuoi cancellare l'articolo?");
+            if (richiesta) {
+                window.location.replace('shop.php?idArticoloEliminare=' + id);
+            }
+        }
+
+        function aggiungiProdotto(i) {
+            window.location.replace('shop.php?idProdottoAcquisto=' + i);
+            // setcookie("carrello_prodotti", i, time() + (86400 * 30), "/"); // 86400 = 1 day
+        }
+    </script>
 </head>
 
 <body>
@@ -53,7 +86,7 @@ include("connection.php");
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
+                <a href="cart.php" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <span class="badge">0</span>
                 </a>
@@ -282,8 +315,18 @@ include("connection.php");
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between bg-light border">
-                                <a href="detail.php?idArticolo=' . $row["id"] . '" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                <a href="detail.php?idArticolo=' . $row["id"] . '" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>';
+                                $id = $_SESSION["idUtenteLog"];
+                                $sql2 = "SELECT ruolo FROM utente where id='$id'";
+                                $result2 = $conn->query($sql2);
+            
+                                while ($row2 = $result2->fetch_assoc()) {
+                                    if ($row2["ruolo"] == 1) {
+                                    $stringa .= '<input type="button" value="Elimina articolo" onclick="change(' . $row["id"] . ')" class="btn btn-sm text-dark p-0"/>';
+                                 }
+                                }
+                                $stringa .='
+                                <button type="button" class="btn btn-sm text-dark p-0" onclick="aggiungiProdotto(' . $row["id"] . ')"><i class="fas fa-shopping-cart text-primary mr-1"></i> Add To Cart</button>
                             </div>
                         </div>
                     </div>';

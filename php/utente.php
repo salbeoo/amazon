@@ -46,7 +46,7 @@ include("connection.php");
                     </span>
 
 
-                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                    <!-- <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
                         <input class="input100" type="email" name="email" placeholder="E-mail">
                         <span class="focus-input100"></span>
                     </div>
@@ -55,20 +55,23 @@ include("connection.php");
                     <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
                         <input class="input100" type="password" name="password" placeholder="Password">
                         <span class="focus-input100"></span>
-                    </div>
+                    </div> -->
 
                     <?php
                     $ddd = ""/* "<div class='container>" */;
-                    $sql = "SELECT ruolo FROM utente where id='$_SESSION[idUtente]'";
+                    $id = $_SESSION["idUtenteLog"];
+                    $sql = "SELECT ruolo FROM utente where id='$id'";
                     $result = $conn->query($sql);
 
                     while ($row = $result->fetch_assoc()) {
-                        $ddd .= '<div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
-                        <a class="login100-form-btn" style="color: white;">Inserimento articolo</a>
-                        <span class="focus-input100"></span>
-                    </div>
-                    ';
-                    };
+                        if ($row["ruolo"] == 1) {
+                            $ddd .= '<div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                            <a href="../html/addArticolo.html" class="login100-form-btn" style="color: white;">Inserimento articolo</a>
+                            <span class="focus-input100"></span>
+                        </div>
+                        ';
+                        }
+                    }
                     echo $ddd;
                     ?>
 
