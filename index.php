@@ -2,14 +2,30 @@
 include("php/sessioni.php");
 include("php/connection.php");
 
+if (!isset($_SESSION["idUtenteLog"])) {
+    $_SESSION["idUtenteLog"] = "-1";
+}
+if (isset($_COOKIE["carrello_id"]))
+    $_SESSION["idCarrello"] = $_COOKIE["carrello_id"];
+else {
+    $pagato = 0;
+    $data = date("y-m-d");
+    $utentino = NULL;
+    $sql = $conn->prepare("INSERT INTO carrello (data,idUtente,pagato) VALUES (?,?,?)");
+    $sql->bind_param("sii", $data, $utentino, $pagato);
+    if ($sql->execute() === true) {
+        $last_id=$sql->insert_id;
+        setcookie("carrello_id", $last_id, time() + (86400 * 30), "/"); // 86400 = 1 day
+    } else {
+    }
+    echo $sql->error;
+}
+
+
+
 if (isset($_GET["idArticoloEliminare"])) {
     $sql = "DELETE FROM articolo WHERE id=$_GET[idArticoloEliminare]";
     $conn->query($sql);
-}
-
-if (!isset($_SESSION["idUtenteLog"])) {
-    $_SESSION["idUtenteLog"] = "-1";
-    $_SESSION["idCarrello"] = "28";
 }
 
 if (isset($_GET["idProdottoAcquisto"])) {
@@ -102,7 +118,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     // }
 
                     ?>
-                    
+
                 </a>
             </div>
         </div>
