@@ -66,7 +66,7 @@ include("connection.php");
                     while ($row = $result->fetch_assoc()) {
                         if ($row["ruolo"] == 1) {
                             $ddd .= '<div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
-                            <a href="../html/addArticolo.html" class="login100-form-btn" style="color: white;">Inserimento articolo</a>
+                            <a href="addArticolo.php" class="login100-form-btn" style="color: white;">Inserimento articolo</a>
                             <span class="focus-input100"></span>
                         </div>
                         ';
