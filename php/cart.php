@@ -68,7 +68,14 @@ if (isset($_GET["idArticoloEliminare"])) {
             <div class="col-lg-3 col-6 text-right">
                 <a href="" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
+                    <?php
+                    // $idCarrello = $_SESSION["idCarrello"];
+                    // $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
+                    // $result = $conn->query($sql);
+                    // while ($row = $result->fetch_assoc()) {
+                    //     echo '<span class="badge">'.$row["count(*)"].'</span>';
+                    // }
+                    ?>
                 </a>
             </div>
         </div>
@@ -143,33 +150,36 @@ if (isset($_GET["idArticoloEliminare"])) {
                     </thead>
                     <tbody class="align-middle">
                         <?php
-                        $stringa = ""/* "<div class='container>" */;
-                        $idCarrello = $_SESSION["idCarrello"];
-                        $sql = "SELECT * FROM contiene_acquisto where idCarrello=$idCarrello ";
-                        $result = $conn->query($sql);
-
-                        while ($row = $result->fetch_assoc()) {
-                            $articoletto = $row["idArticolo"];
-                            $sql2 = "SELECT * FROM articolo where id=$articoletto";
-                            $result2 = $conn->query($sql2);
-                            while ($row2 = $result2->fetch_assoc()) {
-                                $stringa .= '
-                                <tr>
-                                <td class="align-middle"><img src="../' . $row2["immagine"] . '" alt="" style="width: 50px;">' . $row2["nome"] . '</td>
-                                <td class="align-middle">€' . $row2["prezzo"] . '</td>
-                                <td class="align-middle">
-                                    <div class="input-group quantity mx-auto" style="width: 100px;">
-
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="' . $row["quantita"] . '">
-  
-                                    </div>
-                                </td>
-                                <td class="align-middle">$150</td>
-                                <td class="align-middle"><button type="button" onclick="change('.$row["idArticolo"].')" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                            </tr>';
+                        if(isset($_SESSION["idCarrello"])){
+                            $stringa = ""/* "<div class='container>" */;
+                            $idCarrello = $_SESSION["idCarrello"];
+                            $sql = "SELECT * FROM contiene_acquisto where idCarrello=$idCarrello ";
+                            $result = $conn->query($sql);
+    
+                            while ($row = $result->fetch_assoc()) {
+                                $articoletto = $row["idArticolo"];
+                                $sql2 = "SELECT * FROM articolo where id=$articoletto";
+                                $result2 = $conn->query($sql2);
+                                while ($row2 = $result2->fetch_assoc()) {
+                                    $stringa .= '
+                                    <tr>
+                                    <td class="align-middle"><img src="../' . $row2["immagine"] . '" alt="" style="width: 50px;">' . $row2["nome"] . '</td>
+                                    <td class="align-middle">€' . $row2["prezzo"] . '</td>
+                                    <td class="align-middle">
+                                        <div class="input-group quantity mx-auto" style="width: 100px;">
+    
+                                        <input type="text" class="form-control form-control-sm bg-secondary text-center" value="' . $row["quantita"] . '">
+      
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">$150</td>
+                                    <td class="align-middle"><button type="button" onclick="change('.$row["idArticolo"].')" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
+                                </tr>';
+                                }
                             }
+                            echo $stringa;
                         }
-                        echo $stringa;
+
                         ?>
 
                         <!-- <div class="input-group-btn">

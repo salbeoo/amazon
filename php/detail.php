@@ -67,7 +67,14 @@ while ($row = $result->fetch_assoc()) {
 
                 <a href="cart.php" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
+                    <?php
+                    // $idCarrello = $_SESSION["idCarrello"];
+                    // $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
+                    // $result = $conn->query($sql);
+                    // while ($row = $result->fetch_assoc()) {
+                    //     echo '<span class="badge">'.$row["count(*)"].'</span>';
+                    // }
+                    ?>
                 </a>
             </div>
         </div>
