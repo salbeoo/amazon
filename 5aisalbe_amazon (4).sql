@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 30, 2022 alle 12:50
+-- Creato il: Apr 20, 2022 alle 12:18
 -- Versione del server: 10.4.6-MariaDB
 -- Versione PHP: 7.3.8
 
@@ -45,7 +45,8 @@ CREATE TABLE `articolo` (
 --
 
 INSERT INTO `articolo` (`id`, `codice`, `nome`, `descrizione`, `quantita`, `prezzo`, `idCategoria`, `immagine`, `peso`) VALUES
-(1, 1, 'ps5', 'CPU: 8x Zen 2 Cores at 3.5GHz. GPU: 10.28 TFLOPs, 36 CUs at 2.23GHz (frequenza variabile) Architettura GPU: RDNA 2 personalizzata. Memoria: 16GB GDDR6/256-bit.', 10, 451, 1, 'php/uploads/ps5.png', 2);
+(1, 1, 'ps5', 'CPU: 8x Zen 2 Cores at 3.5GHz. GPU: 10.28 TFLOPs, 36 CUs at 2.23GHz (frequenza variabile) Architettura GPU: RDNA 2 personalizzata. Memoria: 16GB GDDR6/256-bit.', 10, 451, 1, 'uploads/ps5.png', 2),
+(2, 6, 'cavallo', 'un bel cavallo', 100, 809, 1, 'uploads/cavalloRuotato.png', 500);
 
 -- --------------------------------------------------------
 
@@ -54,11 +55,29 @@ INSERT INTO `articolo` (`id`, `codice`, `nome`, `descrizione`, `quantita`, `prez
 --
 
 CREATE TABLE `carrello` (
-  `id` int(11) NOT NULL,
+  `idCarrelloCodice` int(11) NOT NULL,
   `data` date NOT NULL,
   `idUtente` int(11) DEFAULT NULL,
   `pagato` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `carrello`
+--
+
+INSERT INTO `carrello` (`idCarrelloCodice`, `data`, `idUtente`, `pagato`) VALUES
+(1, '2022-04-19', NULL, 0),
+(2, '2022-04-19', 13, 0),
+(3, '2022-04-19', NULL, 0),
+(4, '2022-04-19', NULL, 0),
+(5, '2022-04-19', 13, 0),
+(6, '2022-04-19', NULL, 0),
+(7, '2022-04-20', 13, 0),
+(8, '2022-04-20', NULL, 0),
+(9, '2022-04-20', 1, 0),
+(10, '2022-04-20', 1, 0),
+(11, '2022-04-20', NULL, 0),
+(12, '2022-04-20', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -105,6 +124,15 @@ CREATE TABLE `contiene_acquisto` (
   `idCarrello` int(11) NOT NULL,
   `quantita` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `contiene_acquisto`
+--
+
+INSERT INTO `contiene_acquisto` (`id`, `idArticolo`, `idCarrello`, `quantita`) VALUES
+(8, 2, 11, 1),
+(10, 2, 11, 1),
+(11, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -159,8 +187,9 @@ CREATE TABLE `utente` (
 --
 
 INSERT INTO `utente` (`id`, `nome`, `cognome`, `dataNascita`, `sesso`, `username`, `password`, `telefono`, `email`, `fotoProfilo`, `ruolo`, `idIndirizzo`) VALUES
-(1, 'Alberto', 'Stagno', '2003-01-01', 'Uomo', NULL, 'ciao', NULL, 'abc@aaa.it', NULL, 0, NULL),
-(2, 'Simo', 'Sessa', '2003-01-01', 'Uomo', NULL, '6e6bc4e49dd477ebc98ef4046c067b5f', NULL, 'simo@gmail.com', NULL, 0, NULL);
+(1, 'Alberto', 'Stagno', '2003-01-01', 'Uomo', NULL, '6e6bc4e49dd477ebc98ef4046c067b5f', NULL, 'abc@aaa.it', NULL, 0, NULL),
+(2, 'Simo', 'Sessa', '2003-01-01', 'Uomo', NULL, '6e6bc4e49dd477ebc98ef4046c067b5f', NULL, 'simo@gmail.com', NULL, 0, NULL),
+(13, 'admin', 'admin', '2003-01-01', 'Uomo', 'admin', '21232f297a57a5a743894a0e4a801fc3', NULL, 'admin', NULL, 1, NULL);
 
 --
 -- Indici per le tabelle scaricate
@@ -177,7 +206,7 @@ ALTER TABLE `articolo`
 -- Indici per le tabelle `carrello`
 --
 ALTER TABLE `carrello`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`idCarrelloCodice`),
   ADD KEY `FK6` (`idUtente`);
 
 --
@@ -231,13 +260,13 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `articolo`
 --
 ALTER TABLE `articolo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `carrello`
 --
 ALTER TABLE `carrello`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCarrelloCodice` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT per la tabella `categoria`
@@ -249,7 +278,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT per la tabella `contiene_acquisto`
 --
 ALTER TABLE `contiene_acquisto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT per la tabella `indirizzo`
@@ -267,7 +296,7 @@ ALTER TABLE `ordine`
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Limiti per le tabelle scaricate
@@ -297,13 +326,13 @@ ALTER TABLE `commento`
 --
 ALTER TABLE `contiene_acquisto`
   ADD CONSTRAINT `FK7` FOREIGN KEY (`idArticolo`) REFERENCES `articolo` (`id`),
-  ADD CONSTRAINT `FK8` FOREIGN KEY (`idCarrello`) REFERENCES `carrello` (`id`);
+  ADD CONSTRAINT `FK8` FOREIGN KEY (`idCarrello`) REFERENCES `carrello` (`idCarrelloCodice`);
 
 --
 -- Limiti per la tabella `ordine`
 --
 ALTER TABLE `ordine`
-  ADD CONSTRAINT `FK9` FOREIGN KEY (`idCarrello`) REFERENCES `carrello` (`id`);
+  ADD CONSTRAINT `FK9` FOREIGN KEY (`idCarrello`) REFERENCES `carrello` (`idCarrelloCodice`);
 
 --
 -- Limiti per la tabella `utente`
