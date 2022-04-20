@@ -69,12 +69,12 @@ if (isset($_GET["idArticoloEliminare"])) {
                 <a href="" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <?php
-                    // $idCarrello = $_SESSION["idCarrello"];
-                    // $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
-                    // $result = $conn->query($sql);
-                    // while ($row = $result->fetch_assoc()) {
-                    //     echo '<span class="badge">'.$row["count(*)"].'</span>';
-                    // }
+                    $idCarrello = $_SESSION["idCarrello"];
+                    $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
+                    $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<span class="badge">'.$row["count(*)"].'</span>';
+                    }
                     ?>
                 </a>
             </div>
@@ -225,7 +225,7 @@ if (isset($_GET["idArticoloEliminare"])) {
                             <h5 class="font-weight-bold">Total</h5>
                             <h5 class="font-weight-bold">$160</h5>
                         </div>
-                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+                        <a href="checkout.php"> <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button></a>
                     </div>
                 </div>
             </div>

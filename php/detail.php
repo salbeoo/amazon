@@ -13,6 +13,23 @@ while ($row = $result->fetch_assoc()) {
     $_SESSION["pesoArticolo"] = $row["peso"];
 }
 
+if (isset($_GET["idProdottoAcquisto"])) {
+
+    $idArticolo = $_GET["idProdottoAcquisto"];
+    $idCarrello = $_SESSION["idCarrello"];
+    $quantita = 1;
+    // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
+    $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello,quantita) VALUES (?, ?,?)");
+    $sql->bind_param("iii", $idArticolo, $idCarrello, $quantita);
+
+    // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
+    // $conn->query($sql)
+    if ($sql->execute() === TRUE) {
+        header("location:detail.php?idArticolo=".$_GET["idProdottoAcquisto"]);
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +57,13 @@ while ($row = $result->fetch_assoc()) {
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
+
+    <script>
+        function aggiungiProdotto(i) {
+            window.location.replace('detail.php?idArticolo='+i+'&idProdottoAcquisto=' + i);
+            // setcookie("carrello_prodotti", i, time() + (86400 * 30), "/"); // 86400 = 1 day
+        }
+    </script>
 </head>
 
 <body>
@@ -68,12 +92,12 @@ while ($row = $result->fetch_assoc()) {
                 <a href="cart.php" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <?php
-                    // $idCarrello = $_SESSION["idCarrello"];
-                    // $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
-                    // $result = $conn->query($sql);
-                    // while ($row = $result->fetch_assoc()) {
-                    //     echo '<span class="badge">'.$row["count(*)"].'</span>';
-                    // }
+                    $idCarrello = $_SESSION["idCarrello"];
+                    $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
+                    $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<span class="badge">'.$row["count(*)"].'</span>';
+                    }
                     ?>
                 </a>
             </div>
@@ -245,7 +269,9 @@ while ($row = $result->fetch_assoc()) {
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                    <?php
+                    echo '<button type="button" onclick="aggiungiProdotto('.$_GET["idArticolo"].')" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>';
+                    ?>
                 </div>
             </div>
         </div>
