@@ -13,6 +13,10 @@ while ($row = $result->fetch_assoc()) {
     $_SESSION["pesoArticolo"] = $row["peso"];
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 93ef7dbcae2942c3ae59cc0bce63ed2ef98f7bc1
 if (isset($_GET["idProdottoAcquisto"])) {
 
     $idArticolo = $_GET["idProdottoAcquisto"];
@@ -25,11 +29,17 @@ if (isset($_GET["idProdottoAcquisto"])) {
     // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
     // $conn->query($sql)
     if ($sql->execute() === TRUE) {
+<<<<<<< HEAD
         header("location:detail.php?idArticolo=".$_GET["idProdottoAcquisto"]);
     }
 }
 
 
+=======
+        header("location:detail.php");
+    }
+}
+>>>>>>> 93ef7dbcae2942c3ae59cc0bce63ed2ef98f7bc1
 ?>
 
 <!DOCTYPE html>
@@ -59,8 +69,14 @@ if (isset($_GET["idProdottoAcquisto"])) {
     <link href="../css/style.css" rel="stylesheet">
 
     <script>
+<<<<<<< HEAD
         function aggiungiProdotto(i) {
             window.location.replace('detail.php?idArticolo='+i+'&idProdottoAcquisto=' + i);
+=======
+
+        function aggiungiProdotto(i) {
+            window.location.replace('detail.php?idProdottoAcquisto=' + i);
+>>>>>>> 93ef7dbcae2942c3ae59cc0bce63ed2ef98f7bc1
             // setcookie("carrello_prodotti", i, time() + (86400 * 30), "/"); // 86400 = 1 day
         }
     </script>
@@ -269,9 +285,13 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             </button>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <?php
                     echo '<button type="button" onclick="aggiungiProdotto('.$_GET["idArticolo"].')" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>';
                     ?>
+=======
+                    <button type="button"  class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+>>>>>>> 93ef7dbcae2942c3ae59cc0bce63ed2ef98f7bc1
                 </div>
             </div>
         </div>
