@@ -74,12 +74,13 @@ if (isset($_GET["idProdottoAcquisto"])) {
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="">
+                <form action="shop.php" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" name="prodotto_da_cercare" placeholder="Search for products">
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
+                                <input type="submit" style="display: none" class="fa fa-search bg-transparent" value="">
                             </span>
                         </div>
                     </div>
@@ -93,7 +94,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                        echo '<span class="badge">'.$row["count(*)"].'</span>';
+                        echo '<span class="badge">' . $row["count(*)"] . '</span>';
                     }
                     ?>
                 </a>
@@ -164,7 +165,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
                     <form>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="price-all">
+                            <input type="checkbox" class="custom-control-input" id="price-all">
                             <label class="custom-control-label" for="price-all">All Price</label>
                             <span class="badge border font-weight-normal">1000</span>
                         </div>
@@ -196,82 +197,6 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     </form>
                 </div>
                 <!-- Price End -->
-
-                <!-- Color Start -->
-                <div class="border-bottom mb-4 pb-4">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
-                    <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="color-all">
-                            <label class="custom-control-label" for="price-all">All Color</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-1">
-                            <label class="custom-control-label" for="color-1">Black</label>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-2">
-                            <label class="custom-control-label" for="color-2">White</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-3">
-                            <label class="custom-control-label" for="color-3">Red</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-4">
-                            <label class="custom-control-label" for="color-4">Blue</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="color-5">
-                            <label class="custom-control-label" for="color-5">Green</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
-                    </form>
-                </div>
-                <!-- Color End -->
-
-                <!-- Size Start -->
-                <div class="mb-5">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
-                    <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="size-all">
-                            <label class="custom-control-label" for="size-all">All Size</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-1">
-                            <label class="custom-control-label" for="size-1">XS</label>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-2">
-                            <label class="custom-control-label" for="size-2">S</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-3">
-                            <label class="custom-control-label" for="size-3">M</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-4">
-                            <label class="custom-control-label" for="size-4">L</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="size-5">
-                            <label class="custom-control-label" for="size-5">XL</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
-                    </form>
-                </div>
-                <!-- Size End -->
             </div>
             <!-- Shop Sidebar End -->
 
@@ -281,12 +206,14 @@ if (isset($_GET["idProdottoAcquisto"])) {
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <form action="">
+                            <form action="shop.php">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search by name">
+                                    <input type="text" class="form-control" name="prodotto_da_cercare" placeholder="Search by name">
                                     <div class="input-group-append">
                                         <span class="input-group-text bg-transparent text-primary">
                                             <i class="fa fa-search"></i>
+                                            <input type="submit" style="display: none" class="fa fa-search bg-transparent" value="">
+
                                         </span>
                                     </div>
                                 </div>
@@ -305,14 +232,19 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     </div>
 
                     <?php
+
+                    if (isset($_GET["prodotto_da_cercare"])) {
+                        $sql = "SELECT * FROM articolo where nome like '$_GET[prodotto_da_cercare]%'";
+                    } else
+                        $sql = "SELECT * FROM articolo";
+
                     $stringa = ""/* "<div class='container>" */;
-                    $sql = "SELECT * FROM articolo";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                         $stringa .= '<div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                         <div class="card product-item border-0 mb-4">
                             <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <p class="text-right">'.$row["quantita"].' Products</p>
+                                <p class="text-right">' . $row["quantita"] . ' Products</p>
                                 <img class="img-fluid w-100" src="../' . $row["immagine"] . '" alt="">
                             </div>
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -323,16 +255,16 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             </div>
                             <div class="card-footer d-flex justify-content-between bg-light border">
                                 <a href="detail.php?idArticolo=' . $row["id"] . '" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>';
-                                $id = $_SESSION["idUtenteLog"];
-                                $sql2 = "SELECT ruolo FROM utente where id='$id'";
-                                $result2 = $conn->query($sql2);
-            
-                                while ($row2 = $result2->fetch_assoc()) {
-                                    if ($row2["ruolo"] == 1) {
-                                    $stringa .= '<input type="button" value="Elimina articolo" onclick="change(' . $row["id"] . ')" class="btn btn-sm text-dark p-0"/>';
-                                 }
-                                }
-                                $stringa .='
+                        $id = $_SESSION["idUtenteLog"];
+                        $sql2 = "SELECT ruolo FROM utente where id='$id'";
+                        $result2 = $conn->query($sql2);
+
+                        while ($row2 = $result2->fetch_assoc()) {
+                            if ($row2["ruolo"] == 1) {
+                                $stringa .= '<input type="button" value="Elimina articolo" onclick="change(' . $row["id"] . ')" class="btn btn-sm text-dark p-0"/>';
+                            }
+                        }
+                        $stringa .= '
                                 <button type="button" class="btn btn-sm text-dark p-0" onclick="aggiungiProdotto(' . $row["id"] . ')"><i class="fas fa-shopping-cart text-primary mr-1"></i> Add To Cart</button>
                             </div>
                         </div>

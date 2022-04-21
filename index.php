@@ -2,24 +2,43 @@
 include("php/sessioni.php");
 include("php/connection.php");
 
-if (!isset($_SESSION["idUtenteLog"])) {
-    $_SESSION["idUtenteLog"] = "-1";
-}
-if (isset($_COOKIE["carrello_id"]))
-    $_SESSION["idCarrello"] = $_COOKIE["carrello_id"];
-else {
-    $pagato = 0;
-    $data = date("y-m-d");
-    $utentino = NULL;
-    $sql = $conn->prepare("INSERT INTO carrello (data,idUtente,pagato) VALUES (?,?,?)");
-    $sql->bind_param("sii", $data, $utentino, $pagato);
-    if ($sql->execute() === true) {
-        $last_id=$sql->insert_id;
-        setcookie("carrello_id", $last_id, time() + (86400 * 30), "/"); // 86400 = 1 day
+if (!isset($_SESSION["idUtenteLog"])) { //sono un guest
+    if (isset($_COOKIE["carrello_id"])) {
+        //setto le sessioni
+        $_SESSION["idUtenteLog"] = $_COOKIE["utente_id"];
+        $_SESSION["idCarrello"] = $_COOKIE["carrello_id"];
     } else {
+        //CREO UN CARRELLO
+        $pagato = 0;
+        $data = date("y-m-d");
+        $utentino = NULL;
+        $sql = $conn->prepare("INSERT INTO carrello (data,idUtente,pagato) VALUES (?,?,?)");
+        $sql->bind_param("sii", $data, $utentino, $pagato);
+        if ($sql->execute() === true) {
+            setcookie("carrello_id", $sql->insert_id, time() + (86400 * 30), "/"); // 86400 = 1 day
+            setcookie("utente_id", "-1", time() + (86400 * 30), "/"); // 86400 = 1 day
+            $_SESSION["idUtenteLog"] =-1;
+            $_SESSION["idCarrello"] =  $sql->insert_id;
+            $_SESSION["ruolo"] = 0;
+        }
+
     }
-    echo $sql->error;
 }
+// if (isset($_COOKIE["carrello_id"]))
+//     $_SESSION["idCarrello"] = $_COOKIE["carrello_id"];
+// else {
+//     $pagato = 0;
+//     $data = date("y-m-d");
+//     $utentino = NULL;
+//     $sql = $conn->prepare("INSERT INTO carrello (data,idUtente,pagato) VALUES (?,?,?)");
+//     $sql->bind_param("sii", $data, $utentino, $pagato);
+//     if ($sql->execute() === true) {
+//         $last_id = $sql->insert_id;
+//         setcookie("carrello_id", $last_id, time() + (86400 * 30), "/"); // 86400 = 1 day
+//     } else {
+//     }
+//     echo $sql->error;
+// }
 
 
 
@@ -95,12 +114,13 @@ if (isset($_GET["idProdottoAcquisto"])) {
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="">
+                <form action="php/shop.php" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" name="prodotto_da_cercare" placeholder="Search for products" />
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
+                                <input type="submit" style="display: none" class="fa fa-search bg-transparent" value="">
                             </span>
                         </div>
                     </div>
@@ -114,7 +134,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                        echo '<span class="badge">'.$row["count(*)"].'</span>';
+                        echo '<span class="badge">' . $row["count(*)"] . '</span>';
                     }
 
                     ?>
@@ -259,8 +279,13 @@ if (isset($_GET["idProdottoAcquisto"])) {
         </div> -->
         <div class="row px-xl-5 pb-3">
             <?php
+
+            if (isset($_GET["prodotto_da_cercare"])) {
+                $sql = "SELECT * FROM articolo where nome like '$_GET[prodotto_da_cercare]%'";
+            } else
+                $sql = "SELECT * FROM articolo";
+
             $stringa = ""/* "<div class='container>" */;
-            $sql = "SELECT * FROM articolo";
             $result = $conn->query($sql);
 
             while ($row = $result->fetch_assoc()) {

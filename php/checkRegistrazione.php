@@ -20,6 +20,15 @@ $sql = $conn->prepare("INSERT INTO utente (nome, cognome, dataNascita,sesso,emai
 $sql->bind_param("ssssss", $nome, $cognome, $dataNascita, $genere, $email, $password);
 
 if ($sql->execute() === TRUE) {
+
+  //controllo che non ci sia un carrello guest con articoli
+  $idUtente=$sql->insert_id;
+  $pagato = 0;
+  $data = date("y-m-d");
+
+  $sql2 = $conn->prepare("INSERT INTO carrello (data,idUtente,pagato) VALUES (?,?,?)");
+  $sql2->bind_param("sii", $data, $idUtente, $pagato);
+  $sql2->execute();
   header("location:../index.php");
 } else {
   header("location:../html/register.html?ErroreGenerico");

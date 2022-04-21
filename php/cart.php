@@ -242,7 +242,7 @@ if (isset($_GET["idArticoloEliminare"])) {
 
                             ?>
                         </div>
-                        <a href="checkout.php"> <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button></a>
+                        <a href="checkUserLog.php"> <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button></a>
                     </div>
                 </div>
             </div>
