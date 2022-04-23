@@ -54,12 +54,13 @@ if (isset($_GET["idArticoloEliminare"])) {
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="">
+                <form action="shop.php" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" name="prodotto_da_cercare" placeholder="Search for products">
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
+                                <input type="submit" style="display: none" class="fa fa-search bg-transparent" value="">
                             </span>
                         </div>
                     </div>
@@ -162,7 +163,7 @@ if (isset($_GET["idArticoloEliminare"])) {
                                 $sql2 = "SELECT * FROM articolo where id=$articoletto";
                                 $result2 = $conn->query($sql2);
                                 while ($row2 = $result2->fetch_assoc()) {
-                                    $sum += $row2['prezzo'];
+                                    $sum += $row2['prezzo']*$row["quantita"];
                                     $stringa .= '
                                     <tr>
                                     <td class="align-middle"><img src="../' . $row2["immagine"] . '" alt="" style="width: 50px;">' . $row2["nome"] . '</td>
@@ -174,7 +175,7 @@ if (isset($_GET["idArticoloEliminare"])) {
       
                                         </div>
                                     </td>
-                                    <td class="align-middle">$150</td>
+                                    <td class="align-middle">€'.$row2["prezzo"]*$row["quantita"].'</td>
                                     <td class="align-middle"><button type="button" onclick="change(' . $row["idArticolo"] . ')" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
                                 </tr>';
                                 }

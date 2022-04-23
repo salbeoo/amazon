@@ -6,6 +6,7 @@ $idArticolo = $_GET["idArticolo"];
 $sql = "SELECT * FROM articolo where $idArticolo= id";
 $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
+    $_SESSION["idArticoloFocus"] = $idArticolo;
     $_SESSION["nomeArticolo"] = $row["nome"];
     $_SESSION["descrizioneArticolo"] = $row["descrizione"];
     $_SESSION["prezzoArticolo"] = $row["prezzo"];
@@ -25,7 +26,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
     // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
     // $conn->query($sql)
     if ($sql->execute() === TRUE) {
-        header("location:detail.php?idArticolo=".$_GET["idProdottoAcquisto"]);
+        header("location:detail.php?idArticolo=" . $_GET["idProdottoAcquisto"]);
     }
 }
 
@@ -60,7 +61,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
 
     <script>
         function aggiungiProdotto(i) {
-            window.location.replace('detail.php?idArticolo='+i+'&idProdottoAcquisto=' + i);
+            window.location.replace('detail.php?idArticolo=' + i + '&idProdottoAcquisto=' + i);
             // setcookie("carrello_prodotti", i, time() + (86400 * 30), "/"); // 86400 = 1 day
         }
     </script>
@@ -76,12 +77,14 @@ if (isset($_GET["idProdottoAcquisto"])) {
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="">
+                <form action="shop.php" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control"  name="prodotto_da_cercare" placeholder="Search for products">
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
+                                <input type="submit" style="display: none" class="fa fa-search bg-transparent" value="">
+
                             </span>
                         </div>
                     </div>
@@ -96,7 +99,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     $sql = "SELECT count(*) FROM contiene_acquisto where idCarrello=$idCarrello ";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                        echo '<span class="badge">'.$row["count(*)"].'</span>';
+                        echo '<span class="badge">' . $row["count(*)"] . '</span>';
                     }
                     ?>
                 </a>
@@ -143,9 +146,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             <a href="shop.php" class="nav-item nav-link">Shop</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                        <?php
-                                if(isset($_SESSION["email"]))
-                                echo '<a href="utente.php" class="nav-item nav-link">'.$_SESSION["nome"].'</a>'
+                            <?php
+                            if (isset($_SESSION["email"]))
+                                echo '<a href="utente.php" class="nav-item nav-link">' . $_SESSION["nome"] . '</a>'
                             ?>
                             <a href="../html/login.html" class="nav-item nav-link">Login</a>
                             <a href="../html/register.html" class="nav-item nav-link">Register</a>
@@ -270,7 +273,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                         </div>
                     </div>
                     <?php
-                    echo '<button type="button" onclick="aggiungiProdotto('.$_GET["idArticolo"].')" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>';
+                    echo '<button type="button" onclick="aggiungiProdotto(' . $_GET["idArticolo"] . ')" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>';
                     ?>
                 </div>
             </div>
@@ -281,7 +284,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                 <div class="nav nav-tabs justify-content-center border-secondary mb-4">
                     <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
                     <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Information</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews</a>
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-pane-1">
@@ -304,20 +307,19 @@ if (isset($_GET["idProdottoAcquisto"])) {
                                     <li class="list-group-item px-0">
                                         Peso:
                                         <?php
-                                        $desciption =$_SESSION["pesoArticolo"];
+                                        $desciption = $_SESSION["pesoArticolo"];
                                         echo $desciption;
                                         ?>
                                         kg
                                     </li>
                                     <li class="list-group-item px-0">
-                                        Amet kasd gubergren sit sanctus et lorem eos sadipscing at.
                                     </li>
-                                    <li class="list-group-item px-0">
+                                    <!-- <li class="list-group-item px-0">
                                         Duo amet accusam eirmod nonumy stet et et stet eirmod.
                                     </li>
                                     <li class="list-group-item px-0">
                                         Takimata ea clita labore amet ipsum erat justo voluptua. Nonumy.
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
 
@@ -326,11 +328,26 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     <div class="tab-pane fade" id="tab-pane-3">
                         <div class="row">
                             <div class="col-md-6">
-                                <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
-                                <div class="media mb-4">
+                                <?php
+                                $sql = "SELECT count(*) FROM commento where idArticolo=$_GET[idArticolo]";
+                                // echo $sql;
+                                $result = $conn->query($sql);
+                                $stringa="";
+                                while ($row = $result->fetch_assoc()) {
+                                    $stringaIntestazione = '<h4 class="mb-4">' . $row["count(*)"] . ' Review for '.$_SESSION["nomeArticolo"].'</h4>';
+                                    echo $stringaIntestazione;
+                                }
+                                
+                                $sql = "SELECT * FROM commento join utente on commento.idUtente=utente.id where idArticolo=$_GET[idArticolo]";
+                                // echo $sql;
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        $stringa.= '
+                                    <div class="media mb-4">
                                     <img src="../img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                     <div class="media-body">
-                                        <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
+                                        <h6>'.$row["nome"].' '.$row["cognome"].'<small> - <i>'.$row["data"].'</i></small></h6>
                                         <div class="text-primary mb-2">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
@@ -338,9 +355,15 @@ if (isset($_GET["idProdottoAcquisto"])) {
                                             <i class="fas fa-star-half-alt"></i>
                                             <i class="far fa-star"></i>
                                         </div>
-                                        <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
+                                        <p>'.$row["commento"].'</p>
                                     </div>
-                                </div>
+                                </div>';
+                                    }
+                                    echo $stringa;
+                                }
+
+                                ?>
+
                             </div>
                             <div class="col-md-6">
                                 <h4 class="mb-4">Leave a review</h4>
@@ -354,10 +377,10 @@ if (isset($_GET["idProdottoAcquisto"])) {
                                         <i class="far fa-star"></i>
                                     </div>
                                 </div>
-                                <form>
+                                <form action="checkCommenti.php" method="GET">
                                     <div class="form-group">
                                         <label for="message">Your Review *</label>
-                                        <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                        <textarea name="message" id="message" cols="30" rows="5" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group mb-0">
                                         <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">

@@ -69,6 +69,11 @@ include("connection.php");
                             <a href="addArticolo.php" class="login100-form-btn" style="color: white;">Inserimento articolo</a>
                             <span class="focus-input100"></span>
                         </div>
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                            <a href="vistaProdottiTabella.php" class="login100-form-btn" style="color: white;">Visuallizza - Modifica - Elimina</a>
+                            <span class="focus-input100"></span>
+                        </div>
                         ';
                         }
                     }
