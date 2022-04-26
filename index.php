@@ -23,6 +23,10 @@ if (!isset($_SESSION["idUtenteLog"])) { //sono un guest
         }
 
     }
+}else
+{
+    // $_COOKIE["utente_id"]=$_SESSION["idUtenteLog"]; 
+    // $_COOKIE["carrello_id"]=$_SESSION["idCarrello"];
 }
 // if (isset($_COOKIE["carrello_id"]))
 //     $_SESSION["idCarrello"] = $_COOKIE["carrello_id"];
@@ -165,6 +169,8 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             $categorie .= '<a href="" class="nav-item nav-link">' . $row["tipo"] . '</a>';
                         };
                         echo $categorie;
+                        
+                        // echo $_SESSION["idCarrello"];
                         ?>
                     </div>
                 </nav>

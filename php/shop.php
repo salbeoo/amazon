@@ -165,34 +165,82 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
                     <form>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-all">
+                            <input type="checkbox" checked class="custom-control-input" id="price-all">
                             <label class="custom-control-label" for="price-all">All Price</label>
-                            <span class="badge border font-weight-normal">1000</span>
+                            <?php
+                            $sql = "SELECT count(*) FROM articolo";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                            }
+                            ?>
+                           
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-1">
                             <label class="custom-control-label" for="price-1">$0 - $100</label>
-                            <span class="badge border font-weight-normal">150</span>
+                            <?php
+                            $sql = "SELECT count(*) FROM articolo where prezzo>=0 and prezzo<=100";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                            }
+                            ?>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-2">
                             <label class="custom-control-label" for="price-2">$100 - $200</label>
-                            <span class="badge border font-weight-normal">295</span>
+                            <?php
+                            $sql = "SELECT count(*) FROM articolo where prezzo>=100 and prezzo<=200";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                            }
+                            ?>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-3">
                             <label class="custom-control-label" for="price-3">$200 - $300</label>
-                            <span class="badge border font-weight-normal">246</span>
+                            <?php
+                            $sql = "SELECT count(*) FROM articolo where prezzo>=200 and prezzo<=300";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                            }
+                            ?>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-4">
                             <label class="custom-control-label" for="price-4">$300 - $400</label>
-                            <span class="badge border font-weight-normal">145</span>
+                            <?php
+                            $sql = "SELECT count(*) FROM articolo where prezzo>=300 and prezzo<=400";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                            }
+                            ?>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-5">
                             <label class="custom-control-label" for="price-5">$400 - $500</label>
-                            <span class="badge border font-weight-normal">168</span>
+                            <?php
+                            $sql = "SELECT count(*) FROM articolo where prezzo>=400 and prezzo<=500";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                            }
+                            ?>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
+                            <input type="checkbox" class="custom-control-input" id="price-6">
+                            <label class="custom-control-label" for="price-6">>$500</label>
+                            <?php
+                            $sql = "SELECT count(*) FROM articolo where prezzo>=500";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                            }
+                            ?>
                         </div>
                     </form>
                 </div>

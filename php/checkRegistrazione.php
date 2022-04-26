@@ -1,4 +1,5 @@
 <?php
+include("sessioni.php");
 include("connection.php");
 
 $nome = $_POST["nome"];
@@ -22,16 +23,29 @@ $sql->bind_param("ssssss", $nome, $cognome, $dataNascita, $genere, $email, $pass
 if ($sql->execute() === TRUE) {
 
   //controllo che non ci sia un carrello guest con articoli
-  $idUtente=$sql->insert_id;
+  $idUtente = $sql->insert_id;
   $pagato = 0;
   $data = date("y-m-d");
 
-  $sql2 = $conn->prepare("INSERT INTO carrello (data,idUtente,pagato) VALUES (?,?,?)");
-  $sql2->bind_param("sii", $data, $idUtente, $pagato);
-  $sql2->execute();
-  header("location:../index.php");
+  if (isset($_SESSION["idCarrello"])) {
+    $idCarrelloCod=$_SESSION["idCarrello"];
+    // echo $idCarrelloCod;
+    $sql2 = "UPDATE carrello SET idUtente=$idUtente WHERE idCarrelloCodice=$idCarrelloCod";
+    // $sql2 = $conn->prepare("UPDATE carrello SET idUtente=? WHERE idUtente=?");
+    // $idUtenteWhere=$idUtente;
+    // $sql2->bind_param("ii",$idUtente, $idUtenteWhere);
+    // echo $sql2;
+    $conn->query($sql2);
+  } else {
+    $sql2 = $conn->prepare("INSERT INTO carrello (data,idUtente,pagato) VALUES (?,?,?)");
+    $sql2->bind_param("sii", $data, $idUtente, $pagato); 
+    $sql2->execute();
+  }
+
+
+  // header("location:../index.php");
 } else {
-  header("location:../html/register.html?ErroreGenerico");
+  // header("location:../html/register.html?ErroreGenerico");
 }
 
 $sql->close();
