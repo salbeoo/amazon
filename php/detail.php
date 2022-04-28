@@ -2,6 +2,7 @@
 include("sessioni.php");
 include("connection.php");
 
+// echo $_SESSION["nprodotti"];
 $idArticolo = $_GET["idArticolo"];
 $sql = "SELECT * FROM articolo where $idArticolo= id";
 $result = $conn->query($sql);
@@ -18,7 +19,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
 
     $idArticolo = $_GET["idProdottoAcquisto"];
     $idCarrello = $_SESSION["idCarrello"];
-    $quantita = 1;
+    $quantita = $_GET["nprodotti"];
+
+    // $_SESSION["nprodotti"]=$quantita;
 
     $sql3 = "SELECT COUNT(*) AS conta from contiene_acquisto where idArticolo=$idArticolo and idCarrello=$idCarrello";
     $result = $conn->query($sql3);
@@ -53,7 +56,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
             // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
             // $conn->query($sql)
             if ($sql->execute() === TRUE) {
-                header("location:detail.php?idArticolo=".$_SESSION["idArticoloFocus"]);
+                // header("location:detail.php?idArticolo=".$_SESSION["idArticoloFocus"]);
             }
         }
     }
@@ -90,7 +93,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
 
     <script>
         function aggiungiProdotto(i) {
-            window.location.replace('detail.php?idArticolo=' + i + '&idProdottoAcquisto=' + i);
+            var quantita=document.getElementById("numeroProdotti").value;
+            // console.log(quantita);
+            window.location.replace('detail.php?idArticolo=' + i + '&idProdottoAcquisto=' + i+'&nprodotti='+i);
             // setcookie("carrello_prodotti", i, time() + (86400 * 30), "/"); // 86400 = 1 day
         }
     </script>
@@ -294,7 +299,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="number" class="form-control bg-secondary text-center" min="1" value="1">
+                        <input type="number" id="numeroProdotti" class="form-control bg-secondary text-center" min="1" value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>

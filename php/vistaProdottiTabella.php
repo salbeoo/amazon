@@ -2,6 +2,12 @@
 include("sessioni.php");
 include("connection.php");
 
+
+if (isset($_GET["idArticoloEliminare"])) {
+    $sql = "DELETE FROM articolo WHERE id=$_GET[idArticoloEliminare]";
+    $conn->query($sql);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +24,15 @@ include("connection.php");
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <script>
+        function change(id) {
+            var richiesta = window.confirm("Vuoi cancellare l'articolo?");
+            if (richiesta) {
+                window.location.replace('vistaProdottiTabella.php?idArticoloEliminare=' + id);
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -41,13 +56,13 @@ include("connection.php");
                 <table class="table table-hover">
                     <thead class="thead-dark">
                         <tr>
-                        <th scope="col"></th>
+                            <th scope="col"></th>
                             <th scope="col">ID</th>
                             <th scope="col">Codice</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">Quantità</th>
                             <th scope="col">Prezzo</th>
                             <th scope="col">Peso</th>
+                            <th scope="col">Quantità</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -60,17 +75,18 @@ include("connection.php");
                         while ($row = $result->fetch_assoc()) {
                             $stringa .= '
                             <tr>                            
-                            <td><img src="../'.$row["immagine"].'" alt="Image"  style="width: 45px;"></td>
+                            <td><img src="../' . $row["immagine"] . '" alt="Image"  style="width: 45px;"></td>
                             <th scope="row">' . $row["id"] . '</th>
-                            <td>'.$row["codice"].'</td>
-                            <td>'.$row["nome"].'</td>
-                            <td>'.$row["quantita"].'</td>
-                            <td>€'.$row["prezzo"].'</td>
-                            <td>'.$row["peso"].'</td>
+                            <td>' . $row["codice"] . '</td>
+                            <td>' . $row["nome"] . '</td>
+                            <td>€' . $row["prezzo"] . '</td>
+                            <td>' . $row["peso"] . '</td>
+                            <td>' . $row["quantita"] . '</td>
                             <td>
-                            <input type="button" value="X" />
-                            <input type="button" value="Salva" />
+                            <button onclick="change(' . $row["id"] . ')" class="btn btn-sm text-dark p-0" type="button" />Cancella</button>
+                            <button class="btn btn-sm text-dark p-0" type="button" />Salva</button>
                             
+                            </td>
                             </td>
                             </tr>
                             ';
