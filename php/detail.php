@@ -19,14 +19,43 @@ if (isset($_GET["idProdottoAcquisto"])) {
     $idArticolo = $_GET["idProdottoAcquisto"];
     $idCarrello = $_SESSION["idCarrello"];
     $quantita = 1;
-    // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
-    $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello,quantita) VALUES (?, ?,?)");
-    $sql->bind_param("iii", $idArticolo, $idCarrello, $quantita);
 
-    // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
-    // $conn->query($sql)
-    if ($sql->execute() === TRUE) {
-        header("location:detail.php?idArticolo=" . $_GET["idProdottoAcquisto"]);
+    $sql3 = "SELECT COUNT(*) AS conta from contiene_acquisto where idArticolo=$idArticolo and idCarrello=$idCarrello";
+    $result = $conn->query($sql3);
+    // echo $sql3;
+
+    if ($result->num_rows > 0) {
+
+        $row = $result->fetch_assoc();
+
+        if ($row["conta"] > 0) {
+            $sqlQuantita = "SELECT quantita from contiene_acquisto where idArticolo=$idArticolo and idCarrello=$idCarrello";
+            $resultQuantita = $conn->query($sqlQuantita);
+
+            $rowQuantita = $resultQuantita->fetch_assoc();
+
+
+            $sql = $conn->prepare("UPDATE contiene_acquisto SET quantita=? WHERE idArticolo=? and idCarrello=?");
+            $quantita += $rowQuantita["quantita"];
+
+            $sql->bind_param("iii", $quantita, $idArticolo, $idCarrello);
+            // echo $sql;
+            if ($sql->execute() === TRUE) {
+                header("location:detail.php?idArticolo=".$_SESSION["idArticoloFocus"]);
+            }
+        } else {
+
+            // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
+            $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello,quantita) VALUES (?, ?,?)");
+            $sql->bind_param("iii", $idArticolo, $idCarrello, $quantita);
+            // echo $sql;
+
+            // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
+            // $conn->query($sql)
+            if ($sql->execute() === TRUE) {
+                header("location:detail.php?idArticolo=".$_SESSION["idArticoloFocus"]);
+            }
+        }
     }
 }
 

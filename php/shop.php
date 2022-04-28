@@ -12,14 +12,43 @@ if (isset($_GET["idProdottoAcquisto"])) {
     $idArticolo = $_GET["idProdottoAcquisto"];
     $idCarrello = $_SESSION["idCarrello"];
     $quantita = 1;
-    // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
-    $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello,quantita) VALUES (?, ?,?)");
-    $sql->bind_param("iii", $idArticolo, $idCarrello, $quantita);
 
-    // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
-    // $conn->query($sql)
-    if ($sql->execute() === TRUE) {
-        header("location:shop.php");
+    $sql3 = "SELECT COUNT(*) AS conta from contiene_acquisto where idArticolo=$idArticolo and idCarrello=$idCarrello";
+    $result = $conn->query($sql3);
+    // echo $sql3;
+
+    if ($result->num_rows > 0) {
+
+        $row = $result->fetch_assoc();
+
+        if ($row["conta"] > 0) {
+            $sqlQuantita = "SELECT quantita from contiene_acquisto where idArticolo=$idArticolo and idCarrello=$idCarrello";
+            $resultQuantita = $conn->query($sqlQuantita);
+
+            $rowQuantita = $resultQuantita->fetch_assoc();
+
+
+            $sql = $conn->prepare("UPDATE contiene_acquisto SET quantita=? WHERE idArticolo=? and idCarrello=?");
+            $quantita += $rowQuantita["quantita"];
+
+            $sql->bind_param("iii", $quantita, $idArticolo, $idCarrello);
+            // echo $sql;
+            if ($sql->execute() === TRUE) {
+                header("location:shop.php");
+            }
+        } else {
+
+            // setcookie("carrello_prodotti", $_GET["idProdottoAcquisto"], time() + (86400 * 30), "/"); // 86400 = 1 day
+            $sql = $conn->prepare("INSERT INTO contiene_acquisto (idArticolo, idCarrello,quantita) VALUES (?, ?,?)");
+            $sql->bind_param("iii", $idArticolo, $idCarrello, $quantita);
+            // echo $sql;
+
+            // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
+            // $conn->query($sql)
+            if ($sql->execute() === TRUE) {
+                header("location:shop.php");
+            }
+        }
     }
 }
 ?>
@@ -171,10 +200,10 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             $sql = "SELECT count(*) FROM articolo";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
-                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] . '</span>';
                             }
                             ?>
-                           
+
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-1">
@@ -183,7 +212,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             $sql = "SELECT count(*) FROM articolo where prezzo>=0 and prezzo<=100";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
-                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] . '</span>';
                             }
                             ?>
                         </div>
@@ -194,7 +223,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             $sql = "SELECT count(*) FROM articolo where prezzo>=100 and prezzo<=200";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
-                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] . '</span>';
                             }
                             ?>
                         </div>
@@ -205,7 +234,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             $sql = "SELECT count(*) FROM articolo where prezzo>=200 and prezzo<=300";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
-                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] . '</span>';
                             }
                             ?>
                         </div>
@@ -216,7 +245,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             $sql = "SELECT count(*) FROM articolo where prezzo>=300 and prezzo<=400";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
-                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] . '</span>';
                             }
                             ?>
                         </div>
@@ -227,7 +256,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             $sql = "SELECT count(*) FROM articolo where prezzo>=400 and prezzo<=500";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
-                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] . '</span>';
                             }
                             ?>
                         </div>
@@ -238,7 +267,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             $sql = "SELECT count(*) FROM articolo where prezzo>=500";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
-                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] .'</span>';
+                                echo '<span class="badge border font-weight-normal">' . $row["count(*)"] . '</span>';
                             }
                             ?>
                         </div>
