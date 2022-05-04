@@ -34,7 +34,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
             $sql->bind_param("iii", $quantita, $idArticolo, $idCarrello);
             // echo $sql;
             if ($sql->execute() === TRUE) {
-                header("location:shop.php");
+                header("location:categorie.php?categoriaS="+$_GET["categoriaS"]);
             }
         } else {
 
@@ -46,7 +46,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
             // $sql="INSERT INTO contiene_acquisto (idArticolo,idCarrello) values('$idArticolo','$idCarrello')";
             // $conn->query($sql)
             if ($sql->execute() === TRUE) {
-                header("location:shop.php");
+                header("location:categorie.php?categoriaS="+$_GET["categoriaS"]);
             }
         }
     }
@@ -79,19 +79,19 @@ if (isset($_GET["idProdottoAcquisto"])) {
     <link href="../css/style.css" rel="stylesheet">
 
     <script>
-        function change(id) {
+        function change(id,stringaUrl) {
             var richiesta = window.confirm("Vuoi cancellare l'articolo?");
             if (richiesta) {
-                window.location.replace('shop.php?idArticoloEliminare=' + id);
+                window.location.replace('categorie.php?idArticoloEliminare=' + id+"&categoriaS="+stringaUrl);
             }
         }
 
-        function aggiungiProdotto(i) {
-            window.location.replace('shop.php?idProdottoAcquisto=' + i);
+        function aggiungiProdotto(i,stringaUrl) {
+            window.location.replace('categorie.php?idProdottoAcquisto=' + i+"&categoriaS="+stringaUrl);
             // setcookie("carrello_prodotti", i, time() + (86400 * 30), "/"); // 86400 = 1 day
         }
 
-        function filtra() {
+        function filtra(stringaUrl) {
             let c, s, z, a, b, x;
             c = document.getElementById("price-1").checked;
             s = document.getElementById("price-2").checked;
@@ -100,34 +100,34 @@ if (isset($_GET["idProdottoAcquisto"])) {
             b = document.getElementById("price-5").checked;
             x = document.getElementById("price-6").checked;
 
-            let sql = "SELECT * FROM articolo where ";
+            let sql = "SELECT * FROM articolo join categoria on articolo.idCategoria=categoria.codice WHERE categoria.tipo='"+stringaUrl+"' ";
             let i = false;
             if (c == true) {
-                // i = true;
+                i = true;
                 sql += "prezzo >=0 AND prezzo<=100  ";
             } else if (s == true) {
-                // sql += and(i);
+                sql += and(i);
                 sql += "prezzo >=100 AND prezzo<=200  ";
-                // i = true;
+                i = true;
             } else if (z == true) {
-                // sql += and(i);
+                sql += and(i);
                 sql += "prezzo >=200 AND prezzo<=300  ";
-                // i = true;
+                i = true;
             } else if (a == true) {
-                // sql += and(i);
+                sql += and(i);
                 sql += "prezzo >=300 AND prezzo<=400  ";
-                // i = true;
+                i = true;
             } else if (b == true) {
-                // sql += and(i);
+                sql += and(i);
                 sql += "prezzo >=400 AND prezzo<=500  ";
-                // i = true;
+                i = true;
             } else if (x == true) {
-                // sql += and(i);
+                sql += and(i);
                 sql += "prezzo >=500  ";
-                // i = true;
+                i = true;
             }else
-                sql = "SELECT * FROM articolo ";
-            window.location.replace("shop.php?sql=" + sql);
+                sql = "SELECT * FROM articolo join categoria on articolo.idCategoria=categoria.codice WHERE categoria.tipo='"+stringaUrl+"'";
+            window.location.replace("categorie.php?categoriaS="+stringaUrl+"&sql="+sql);
         }
 
         // function and(i) {
@@ -148,6 +148,17 @@ if (isset($_GET["idProdottoAcquisto"])) {
     <!-- Navbar End -->
     <!-- Topbar End -->
 
+
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">
+                <?php
+                    echo $_GET["categoriaS"]
+                ?>
+            </h1>
+        </div>
+    </div>
+
     <!-- Shop Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
@@ -158,7 +169,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
                     <form>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" name="radioBB" checked class="custom-control-input" id="price-all" onclick="filtra()">
+                            <?php
+                            echo '<input type="radio" name="radioBB" checked class="custom-control-input" id="price-all" onclick="filtra('.$_GET["categoriaS"].')>';
+                            ?>
                             <label class="custom-control-label" for="price-all">All Price</label>
                             <?php
                             $sql = "SELECT count(*) FROM articolo";
@@ -170,7 +183,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
 
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" name="radioBB" class="custom-control-input" id="price-1" onclick="filtra()">
+                        <?php
+                            echo '<input type="radio" name="radioBB"  class="custom-control-input" id="price-1" onclick="filtra('.$_GET["categoriaS"].')">';
+                            ?>
                             <label class="custom-control-label" for="price-1">$0 - $100</label>
                             <?php
                             $sql = "SELECT count(*) FROM articolo where prezzo>=0 and prezzo<=100";
@@ -181,7 +196,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             ?>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" name="radioBB" class="custom-control-input" id="price-2" onclick="filtra()">
+                        <?php
+                            echo '<input type="radio" name="radioBB"  class="custom-control-input" id="price-2" onclick="filtra('.$_GET["categoriaS"].')">';
+                            ?>
                             <label class="custom-control-label" for="price-2">$100 - $200</label>
                             <?php
                             $sql = "SELECT count(*) FROM articolo where prezzo>=100 and prezzo<=200";
@@ -192,7 +209,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             ?>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" name="radioBB" class="custom-control-input" id="price-3" onclick="filtra()">
+                        <?php
+                            echo '<input type="radio" name="radioBB"  class="custom-control-input" id="price-3" onclick="filtra('.$_GET["categoriaS"].')">';
+                            ?>
                             <label class="custom-control-label" for="price-3">$200 - $300</label>
                             <?php
                             $sql = "SELECT count(*) FROM articolo where prezzo>=200 and prezzo<=300";
@@ -203,7 +222,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             ?>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" name="radioBB" class="custom-control-input" id="price-4" onclick="filtra()">
+                        <?php
+                            echo '<input type="radio" name="radioBB"  class="custom-control-input" id="price-4" onclick="filtra('.$_GET["categoriaS"].')">';
+                            ?>
                             <label class="custom-control-label" for="price-4">$300 - $400</label>
                             <?php
                             $sql = "SELECT count(*) FROM articolo where prezzo>=300 and prezzo<=400";
@@ -214,7 +235,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             ?>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" name="radioBB" class="custom-control-input" id="price-5" onclick="filtra()">
+                        <?php
+                            echo '<input type="radio" name="radioBB"  class="custom-control-input" id="price-5" onclick="filtra('.$_GET["categoriaS"].')">';
+                            ?>
                             <label class="custom-control-label" for="price-5">$400 - $500</label>
                             <?php
                             $sql = "SELECT count(*) FROM articolo where prezzo>=400 and prezzo<=500";
@@ -225,7 +248,9 @@ if (isset($_GET["idProdottoAcquisto"])) {
                             ?>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="radio" name="radioBB" class="custom-control-input" id="price-6" onclick="filtra()">
+                        <?php
+                            echo '<input type="radio" name="radioBB"  class="custom-control-input" id="price-6" onclick="filtra('.$_GET["categoriaS"].')">';
+                            ?>
                             <label class="custom-control-label" for="price-6">>$500</label>
                             <?php
                             $sql = "SELECT count(*) FROM articolo where prezzo>=500";
@@ -279,7 +304,7 @@ if (isset($_GET["idProdottoAcquisto"])) {
                     } else if (isset($_GET["sql"]))
                         $sql = $_GET["sql"];
                     else
-                        $sql = "SELECT * FROM articolo";
+                        $sql = "SELECT * FROM articolo join categoria on articolo.idCategoria=categoria.codice WHERE categoria.tipo='".$_GET["categoriaS"]."'";
 
                     $stringa = ""/* "<div class='container>" */;
                     $result = $conn->query($sql);
@@ -304,11 +329,11 @@ if (isset($_GET["idProdottoAcquisto"])) {
 
                         while ($row2 = $result2->fetch_assoc()) {
                             if ($row2["ruolo"] == 1) {
-                                $stringa .= '<input type="button" value="Elimina articolo" onclick="change(' . $row["id"] . ')" class="btn btn-sm text-dark p-0"/>';
+                                $stringa .= '<input type="button" value="Elimina articolo" onclick="change('. $row["id"] . ',"'.$_GET["categoriaS"].'")" class="btn btn-sm text-dark p-0"/>';
                             }
                         }
                         $stringa .= '
-                                <button type="button" class="btn btn-sm text-dark p-0" onclick="aggiungiProdotto(' . $row["id"] . ')"><i class="fas fa-shopping-cart text-primary mr-1"></i> Add To Cart</button>
+                                <button type="button" class="btn btn-sm text-dark p-0" onclick="aggiungiProdotto(' . $row["id"] . ',"'.$_GET["categoriaS"].'")"><i class="fas fa-shopping-cart text-primary mr-1"></i> Add To Cart</button>
                             </div>
                         </div>
                     </div>';
@@ -322,10 +347,11 @@ if (isset($_GET["idProdottoAcquisto"])) {
     </div>
     <!-- Shop End -->
 
-                
+
     <?php
     include("viewFooter.php");
     ?>
+
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
