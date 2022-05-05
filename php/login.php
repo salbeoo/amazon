@@ -10,13 +10,10 @@ include("connection.php");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina personale</title>
+    <title>Login</title>
 
-    <link rel="stylesheet" type="text/css" href="../html/css/util.css">
-    <link rel="stylesheet" type="text/css" href="../html/css/main.css">
-
-    <!-- <link rel="stylesheet" type="text/css" href="../css/myStyle.css"> -->
-
+    <link rel="stylesheet" type="text/css" href="../css/util.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
     <!-- Favicon -->
     <link href="../img/favicon.ico" rel="icon">
 
@@ -35,7 +32,7 @@ include("connection.php");
 
     <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
     <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
 <body>
@@ -51,51 +48,48 @@ include("connection.php");
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
             <?php
-           echo '<h1 class="font-weight-semi-bold text-uppercase mb-3">'.$_SESSION["nome"].'</h1>';
+            echo '<h1 class="font-weight-semi-bold text-uppercase mb-3">login</h1>';
             ?>
-            
+
         </div>
     </div>
+
     <!-- Page Header End -->
-
-    <!-- <div class="limiter"> -->
     <div class="center" style="  display: flex;justify-content: center;">
+
         <div class="wrap-login100 p-t-50 p-b-90">
-            <form class="login100-form validate-form flex-sb flex-w" action="../php/sessioniDestroy.php" method="post">
+            <form class="login100-form validate-form flex-sb flex-w" action="checkLogin.php" method="post">
                 <!-- METTI RIFERIMENTO AL METHOD E ACTION -->
-                <?php
-                $ddd = ""/* "<div class='container>" */;
-                $id = $_SESSION["idUtenteLog"];
-                $sql = "SELECT ruolo FROM utente where id='$id'";
-                $result = $conn->query($sql);
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                    <input class="input100" type="text" name="email" placeholder="E-mail" required>
+                    <span class="focus-input100"></span>
+                </div>
 
-                while ($row = $result->fetch_assoc()) {
-                    if ($row["ruolo"] == 1) {
-                        $ddd .= '<div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
-                            <a href="addArticolo.php" class="login100-form-btn" style="color: white;">Inserimento articolo</a>
-                            <span class="focus-input100"></span>
-                        </div>
 
-                        <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
-                            <a href="vistaProdottiTabella.php" class="login100-form-btn" style="color: white;">Visuallizza - Modifica - Elimina</a>
-                            <span class="focus-input100"></span>
-                        </div>
-                        ';
-                    }
-                }
-                echo $ddd;
-                ?>
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                    <input class="input100" type="password" name="password" placeholder="Password" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+
+                <div class="flex-sb-m w-full p-t-3 p-b-24">
+                    <div>
+                        <a href="register.php" class="txt1">
+                            <!-- METTI RIFERIMENTO AL link -->
+                            Non sei ancora registrato? Clicca qui.
+                        </a>
+                    </div>
+                </div>
 
                 <div class="container-login100-form-btn m-t-17">
                     <button class="login100-form-btn" type="submit">
-                        Log out
+                        Login
                     </button>
                 </div>
 
             </form>
         </div>
     </div>
-    <!-- </div> -->
 
     <?php
     include("viewFooter.php");
@@ -104,15 +98,15 @@ include("connection.php");
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../lib/easing/easing.min.js"></script>
-    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Contact Javascript File -->
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../js/main.js"></script>
+    <script src="js/main.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
 </body>
 

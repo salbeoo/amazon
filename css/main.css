@@ -28,7 +28,7 @@ body, html {
 
 /*---------------------------------------------*/
 a {
-	font-family: Ubuntu-Regular,sans-serif;
+	/* font-family: Ubuntu-Regular,sans-serif; */
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;

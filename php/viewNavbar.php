@@ -82,8 +82,8 @@ if (isset($_SESSION["email"]))
     $stringaNav .= '<a href="utente.php" class="nav-item nav-link">' . $_SESSION["nome"] . '</a>';
 else {
     $stringaNav .= '    
-    <a href="../html/login.html" class="nav-item nav-link">Login</a>
-    <a href="../html/register.html" class="nav-item nav-link">Register</a>
+    <a href="login.php" class="nav-item nav-link">Login</a>
+    <a href="register.php" class="nav-item nav-link">Register</a>
     ';
 }
 $stringaNav .= '

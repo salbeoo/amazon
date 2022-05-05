@@ -17,14 +17,12 @@ if (!isset($_SESSION["idUtenteLog"])) { //sono un guest
         if ($sql->execute() === true) {
             setcookie("carrello_id", $sql->insert_id, time() + (86400 * 30), "/"); // 86400 = 1 day
             setcookie("utente_id", "-1", time() + (86400 * 30), "/"); // 86400 = 1 day
-            $_SESSION["idUtenteLog"] =-1;
+            $_SESSION["idUtenteLog"] = -1;
             $_SESSION["idCarrello"] =  $sql->insert_id;
             $_SESSION["ruolo"] = 0;
         }
-
     }
-}else
-{
+} else {
     // $_COOKIE["utente_id"]=$_SESSION["idUtenteLog"]; 
     // $_COOKIE["carrello_id"]=$_SESSION["idCarrello"];
 }
@@ -195,10 +193,10 @@ if (isset($_GET["idProdottoAcquisto"])) {
                         $result = $conn->query($sql);
 
                         while ($row = $result->fetch_assoc()) {
-                            $categorie .= '<a href="php/categorie.php?categoriaS='.$row["tipo"].'" class="nav-item nav-link">' . $row["tipo"] . '</a>';
+                            $categorie .= '<a href="php/categorie.php?categoriaS=' . $row["tipo"] . '" class="nav-item nav-link">' . $row["tipo"] . '</a>';
                         };
                         echo $categorie;
-                        
+
                         // echo $_SESSION["idCarrello"];
                         ?>
                     </div>
@@ -227,11 +225,13 @@ if (isset($_GET["idProdottoAcquisto"])) {
                         <div class="navbar-nav ml-auto py-0">
                             <?php
                             if (isset($_SESSION["email"]))
-                                echo '<a href="php/utente.php" class="nav-item nav-link">' . $_SESSION["nome"] . '</a>'
+                                echo '<a href="php/utente.php" class="nav-item nav-link">' . $_SESSION["nome"] . '</a>';
+                            else {
+                                echo ' <a href="php/login.php" class="nav-item nav-link">Login</a>
+                                    <a href="php/register.php" class="nav-item nav-link">Register</a>
+                                    ';
+                            }
                             ?>
-
-                            <a href="html/login.html" class="nav-item nav-link">Login</a>
-                            <a href="html/register.html" class="nav-item nav-link">Register</a>
                         </div>
                     </div>
                 </nav>
@@ -401,12 +401,14 @@ if (isset($_GET["idProdottoAcquisto"])) {
                 <img class="img-fluid" src="img/payments.png" alt="">
             </div>
         </div>
+
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
     </div>
     <!-- Footer End -->
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 
     <!-- JavaScript Libraries -->

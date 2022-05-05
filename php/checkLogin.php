@@ -46,7 +46,7 @@ if ($result->num_rows > 0) {
 
   header("location:../index.php");
 } else {
-  header("location:../html/login.html?ErroreLogin");
+  header("location:login.php?ErroreLogin");
 }
 
 $conn->close();

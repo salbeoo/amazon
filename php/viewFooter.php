@@ -39,12 +39,10 @@ $stringaFooter = '
                 <img class="img-fluid" src="img/payments.png" alt="">
             </div>
         </div>
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
     </div>
 
-
-
-
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 ';
 
 echo $stringaFooter;

@@ -43,9 +43,9 @@ if ($sql->execute() === TRUE) {
   }
 
 
-  // header("location:../index.php");
+  header("location:../index.php");
 } else {
-  // header("location:../html/register.html?ErroreGenerico");
+  header("location:register.php?ErroreGenerico");
 }
 
 $sql->close();
