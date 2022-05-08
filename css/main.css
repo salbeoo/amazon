@@ -29,7 +29,7 @@ body, html {
 /*---------------------------------------------*/
 a {
 	/* font-family: Ubuntu-Regular,sans-serif; */
-	font-size: 14px;
+	/* font-size: 14px; */
 	line-height: 1.7;
 	color: #666666;
 	margin: 0px;
@@ -54,8 +54,8 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 p {
-	font-family: Ubuntu-Regular;
-	font-size: 14px;
+	/* font-family: Ubuntu-Regular; */
+	/* font-size: 14px; */
 	line-height: 1.7;
 	color: #666666;
 	margin: 0px;

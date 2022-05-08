@@ -47,15 +47,11 @@ if (isset($_GET["idArticoletto"])) {
             }
         }
 
-        function addProdotto(i){
+        function changeNProdotto(i){
             var quantita=document.getElementById("numeroProdotti").value;
             window.location.replace('cart.php?idArticoletto=' + i+"&nProdotti="+quantita);
         }
 
-        function decProdotto(i){
-            var quantita=document.getElementById("numeroProdotti").value;
-            window.location.replace('cart.php?idArticoletto=' + i+"&nProdotti="+quantita);
-        }
     </script>
 </head>
 
@@ -107,13 +103,13 @@ if (isset($_GET["idArticoletto"])) {
                                     <div class="d-flex align-items-center quantity mx-auto mb-4 pt-2">
                                         <div class="input-group quantity quantity mx-auto mr-3" style="width: 130px;">
                                             <div class="input-group-btn">
-                                                <button onclick="decProdotto('.$row2["id"].')" class="btn btn-primary btn-minus">
+                                                <button onmouseup="changeNProdotto('.$row2["id"].')" class="btn btn-primary btn-minus">
                                                     <i class="fa fa-minus"></i>
                                                 </button>
                                             </div>
-                                            <input type="number" id="numeroProdotti" class="form-control bg-secondary text-center" min="1" value="' . $row["quantita"] . '">
+                                            <input type="text" oninput="changeNProdotto('.$row2["id"].')" id="numeroProdotti" class="form-control bg-secondary text-center" min="1" value="' . $row["quantita"] . '">
                                             <div class="input-group-btn quantity mx-auto">
-                                                <button onclick="addProdotto('.$row2["id"].')" class="btn btn-primary btn-plus">
+                                                <button class="btn btn-primary btn-plus">
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </div>

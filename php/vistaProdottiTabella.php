@@ -58,7 +58,7 @@ if (isset($_GET["idArticoloSalvare"])) {
         }
 
         function salva(id) {
-            var nProdotto=document.getElementById("nArticoli").value;
+            var nProdotto=document.getElementById("nArticoli"+id).value;
             window.location.replace('vistaProdottiTabella.php?idArticoloSalvare=' + id+'&nProdotti='+nProdotto);
 
         }
@@ -117,7 +117,7 @@ if (isset($_GET["idArticoloSalvare"])) {
                             <td>' . $row["nome"] . '</td>
                             <td>€' . $row["prezzo"] . '</td>
                             <td>' . $row["peso"] . '</td>
-                            <td><input style="width:100px"type="number" id="nArticoli" value="' . $row["quantita"] . '"/></td>
+                            <td><input style="width:100px"type="number" id="nArticoli'.$row["id"].'" value="' . $row["quantita"] . '"/></td>
                             <td>
                             <button onclick="change(' . $row["id"] . ')" class="btn btn-sm text-dark p-0" type="button" /><i class="fa fa-trash fa-2x"></i></button>
                             <button onclick="salva(' . $row["id"] . ')" class="btn btn-sm text-dark p-0" type="button" /><i class="fa fa-save fa-2x"></i></button>
