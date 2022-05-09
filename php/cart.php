@@ -49,6 +49,7 @@ if (isset($_GET["idArticoletto"])) {
 
         function changeNProdotto(i){
             var quantita=document.getElementById("numeroProdotti").value;
+            
             window.location.replace('cart.php?idArticoletto=' + i+"&nProdotti="+quantita);
         }
 

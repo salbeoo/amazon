@@ -52,7 +52,7 @@ include("connection.php");
     </script>
 
     <style>
-        .float-left{
+        .float-left {
             float: left;
         }
     </style>
@@ -77,70 +77,77 @@ include("connection.php");
         </div>
     </div>
 
-    <div class="center" style="  display: flex;justify-content: center;">
-        <div class="wrap-login100 p-t-50 p-b-90">
-            <form class="login100-form validate-form flex-sb flex-w" action="checkRegistrazione.php" method="post">
-                <!-- METTI RIFERIMENTO AL METHOD E ACTION -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-12">
+                <form class="login100-form validate-form flex-sb flex-w" action="checkRegistrazione.php" method="post">
+                    <!-- METTI RIFERIMENTO AL METHOD E ACTION -->
+                    <div class="mb-4">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>First Name</label>
+                                <input class="form-control" type="text" name="nome" placeholder="Nome" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Last Name</label>
+                                <input class="form-control" type="text" name="cognome" placeholder="Cognome" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>E-mail</label>
+                                <input class="form-control" type="email" name="email" placeholder="example@email.com">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Genere</label>
+                                <select class="form-control" name="genere" required>
+                                    <option disabled selected hidden>Genere</option>
+                                    <option>Uomo</option>
+                                    <option>Donna</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Date of birth</label>
+                                <input class="form-control" type="text" name="dataNascita" placeholder="01/01/2003" onfocus="(this.type='date')" onblur="(this.type='text')" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Password</label>
+                                <input class="form-control" type="password" id="pass1" name="password" placeholder="Password" required>
+                            </div>
 
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <input class="input100" type="text" name="nome" placeholder="Nome" required>
-                    <span class="focus-input100"></span>
-                </div>
+                            <div class="col-md-6 form-group">
+                                <label>Conferma password</label>
+                                <input class="form-control" type="password" id="pass2" name="confermaPassword" placeholder="Conferma password" onblur="controllaPassword()" required>
+                            </div>
 
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <input class="input100" type="text" name="cognome" placeholder="Cognome" required>
-                    <span class="focus-input100"></span>
-                </div>
+                            <div class="col-md-6 form-group">
+                            <label></label>
+                                
+                            <span class="form-control" id="flag" style="text-align: center;padding: 10px;color: black; display: none;"></span>
 
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <input class="input100" type="text" name="dataNascita" placeholder="01/01/2003" onfocus="(this.type='date')" onblur="(this.type='text')" required>
-                    <span class="focus-input100"></span>
-                </div>
+                            </div>
 
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <select class="input100" name="genere" required>
-                        <option disabled selected hidden>Genere</option>
-                        <option>Uomo</option>
-                        <option>Donna</option>
-                    </select>
-                    <span class="focus-input100"></span>
-                </div>
+                            <span class="input100" id="flag" style="text-align: center;padding: 20px;color: black; display: none;"></span>
+                            <span class="focus-input100"></span>
+                            
+                            <div class="col-md-12 form-group">
+                                
+                                <div>
+                                    <a href="login.php" class="txt1">
+                                        <!-- METTI RIFERIMENTO AL link -->
+                                        Sei già registrato? Clicca qui.
+                                    </a>
+                                </div>
+                            </div>
 
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <input class="input100" type="email" name="email" placeholder="Email" required>
-                    <span class="focus-input100"></span>
-                </div>
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <input class="input100" type="password" id="pass1" name="password" placeholder="Password" required>
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <input class="input100" type="password" id="pass2" name="confermaPassword" placeholder="Conferma password" onblur="controllaPassword()" required>
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <span class="input100" id="flag" style="text-align: center;padding: 20px;color: black; display: none;"></span>
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="flex-sb-m w-full p-t-3 p-b-24">
-                    <div>
-                        <a href="login.php" class="txt1">
-                            <!-- METTI RIFERIMENTO AL link -->
-                            Sei già registrato? Clicca qui.
-                        </a>
+                        </div>
+                        <div class="container-login100-form-btn m-t-17">
+                        <button class="login100-form-btn" type="submit">
+                            Registrati
+                        </button>
                     </div>
-                </div>
+                    </div>
 
-                <div class="container-login100-form-btn m-t-17">
-                    <button class="login100-form-btn" type="submit">
-                        Registrati
-                    </button>
-                </div>
-
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
