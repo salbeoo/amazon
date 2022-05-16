@@ -27,10 +27,21 @@ if ($sql->execute() === TRUE) {
     $conn->query($sql3);
 
     $data = date("y-m-d");
-    $ora=time();
+    $ora=date("H:i:s");
     $sql5 = $conn->prepare("INSERT INTO ordine (data, ora, idCarrello) VALUES (?, ?, ?)");
     $sql5->bind_param("ssi", $data, $ora, $idCarrellino);
     $sql5->execute();
+
+
+    $pagato = 0;
+    $data = date("y-m-d");
+    $utentino = $_SESSION["idUtenteLog"];
+    $sql7 = $conn->prepare("INSERT INTO carrello (data,idUtente,pagato) VALUES (?,?,?)");
+    $sql7->bind_param("sii", $data, $utentino, $pagato);
+    if ($sql7->execute() === true) {
+        $_SESSION["idUtenteLog"] = $utentino;
+        $_SESSION["idCarrello"] =  $sql7->insert_id;
+    }
 
     header("location:../index.php");
 

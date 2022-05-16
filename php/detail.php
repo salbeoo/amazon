@@ -44,7 +44,8 @@ if (isset($_GET["idProdottoAcquisto"])) {
             $sql->bind_param("iii", $quantita, $idArticolo, $idCarrello);
             // echo $sql;
             if ($sql->execute() === TRUE) {
-                header("location:detail.php?idArticolo=".$_SESSION["idArticoloFocus"]);
+                // header("location:detail.php?idArticolo=".$_SESSION["idArticoloFocus"]);
+                header("location:cart.php");
             }
         } else {
 
@@ -57,6 +58,8 @@ if (isset($_GET["idProdottoAcquisto"])) {
             // $conn->query($sql)
             if ($sql->execute() === TRUE) {
                 // header("location:detail.php?idArticolo=".$_SESSION["idArticoloFocus"]);
+                header("location:cart.php");
+
             }
         }
     }

@@ -6,7 +6,7 @@ include("connection.php");
 $email = $_POST["email"];
 $password = $_POST["password"];
 
-$sql = "SELECT  *,utente.id FROM utente left join carrello on utente.id = carrello.idUtente where password = '" . md5($password) . "' and email = '$email' ";
+$sql = "SELECT  *,utente.id FROM utente left join carrello on utente.id = carrello.idUtente where password = '" . md5($password) . "' and email = '$email' and pagato=0 ";
 // and pagato=0
 $result = $conn->query($sql);
 

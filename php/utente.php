@@ -51,9 +51,9 @@ include("connection.php");
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
             <?php
-           echo '<h1 class="font-weight-semi-bold text-uppercase mb-3">'.$_SESSION["nome"].'</h1>';
+            echo '<h1 class="font-weight-semi-bold text-uppercase mb-3">' . $_SESSION["nome"] . '</h1>';
             ?>
-            
+
         </div>
     </div>
     <!-- Page Header End -->
@@ -83,6 +83,10 @@ include("connection.php");
                         ';
                     }
                 }
+                $ddd .= '<div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                <a href="vistaOrdini.php" class="login100-form-btn" style="color: white;">Visualizza ordini</a>
+                <span class="focus-input100"></span>
+            </div>';
                 echo $ddd;
                 ?>
 
