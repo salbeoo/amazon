@@ -109,7 +109,7 @@ include("connection.php");
                                         $sum += $row2['prezzo'] * $row["quantita"];
                                         $stringa .= '
                                     <div class="d-flex justify-content-between">
-                                    <p>' . $row2["nome"] . '</p>
+                                    <p>' . $row2["nome"] . ' x '.$row["quantita"].'</p>
                                     <p>€' . $row2["prezzo"] * $row["quantita"] . '</p>
                                 </div>
                                 ';
